@@ -1,0 +1,180 @@
+package bme.aut.sza.honfoglalo.ui.buttons
+
+import android.content.Context
+import android.graphics.Outline
+import android.graphics.Rect
+import android.util.Log
+import android.widget.ImageButton
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import bme.aut.sza.honfoglalo.R
+import bme.aut.sza.honfoglalo.ui.theme.HonfoglaloTheme
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun MultiColorButton(
+    modifier: Modifier = Modifier,
+    colors: Array<Color>,
+    text: String,
+    onClick: () -> Unit,
+){
+
+    val stops = mutableListOf<Pair<Float, Color>>()
+
+    //stops.add(0.0f to colors[0])
+
+    for (index in colors.indices){
+        stops.add((index / colors.size.toFloat() to colors[index]))
+        stops.add(((index + 1) / colors.size.toFloat() to colors[index]))
+    }
+    Log.d("xd", stops.toString())
+    //stops.add(1.0f to colors[colors.lastIndex])
+
+    Button(
+        modifier = modifier,
+        onClick = onClick,
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent
+        ),
+        border = BorderStroke(color = Color.Black, width = 3.dp)
+    ){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.horizontalGradient(colorStops = stops.toTypedArray()),
+                )
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            OutlinedText(
+                text = text,
+                fontSize = 20.sp,
+                fillColor = Color.Black,
+                outlineColor = Color.White,
+                outlineDrawStyle = Stroke(width = 5f)
+            )
+        }
+    }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun OutlinedText(
+    text: String,
+    modifier: Modifier = Modifier,
+    fillColor: Color = Color.Unspecified,
+    outlineColor: Color,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    fontStyle: FontStyle? = null,
+    fontWeight: FontWeight? = null,
+    fontFamily: FontFamily? = null,
+    letterSpacing: TextUnit = TextUnit.Unspecified,
+    textDecoration: TextDecoration? = null,
+    textAlign: TextAlign? = null,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
+    style: TextStyle = LocalTextStyle.current,
+    outlineDrawStyle: Stroke = Stroke(),
+) {
+    Box(modifier = modifier) {
+        Text(
+            text = text,
+            modifier = Modifier.semantics { invisibleToUser() },
+            color = outlineColor,
+            fontSize = fontSize,
+            fontStyle = fontStyle,
+            fontWeight = fontWeight,
+            fontFamily = fontFamily,
+            letterSpacing = letterSpacing,
+            textDecoration = null,
+            textAlign = textAlign,
+            lineHeight = lineHeight,
+            overflow = overflow,
+            softWrap = softWrap,
+            maxLines = maxLines,
+            minLines = minLines,
+            onTextLayout = onTextLayout,
+            style = style.copy(
+                shadow = null,
+                drawStyle = outlineDrawStyle,
+            ),
+        )
+
+        Text(
+            text = text,
+            color = fillColor,
+            fontSize = fontSize,
+            fontStyle = fontStyle,
+            fontWeight = fontWeight,
+            fontFamily = fontFamily,
+            letterSpacing = letterSpacing,
+            textDecoration = textDecoration,
+            textAlign = textAlign,
+            lineHeight = lineHeight,
+            overflow = overflow,
+            softWrap = softWrap,
+            maxLines = maxLines,
+            minLines = minLines,
+            onTextLayout = onTextLayout,
+            style = style,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ButtonPreview() {
+    HonfoglaloTheme {
+        MultiColorButton(
+            colors = arrayOf(Color.Green, Color.Blue),
+            text = "Ez egy hosszú válasz xdddd",
+            onClick = { }
+        )
+    }
+}
