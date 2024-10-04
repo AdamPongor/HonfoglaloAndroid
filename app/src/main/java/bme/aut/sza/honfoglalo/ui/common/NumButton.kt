@@ -1,6 +1,9 @@
 package bme.aut.sza.honfoglalo.ui.common
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.ButtonColors
@@ -63,6 +66,6 @@ fun AcceptButton(
         border = BorderStroke(color = Color.Black, width = 3.dp),
         colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = backgroundColor)
     ){
-        Icon(painter = painterResource(R.drawable.baseline_arrow_right_24), "backspace")
+        Icon(painter = painterResource(R.drawable.baseline_play_arrow_24), "accept", modifier = Modifier.fillMaxSize())
     }
 }
