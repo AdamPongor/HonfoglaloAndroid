@@ -1,8 +1,10 @@
 package bme.aut.sza.honfoglalo.util
 
+import android.content.Context
 import android.graphics.Matrix
 import android.graphics.RectF
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
@@ -58,3 +60,6 @@ fun String?.toPath(size: Size?, pathDestination: Path? = null): Path? {
     }
     return null
 }
+
+fun Float.pxToDp(context: Context): Float =
+    (this / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
