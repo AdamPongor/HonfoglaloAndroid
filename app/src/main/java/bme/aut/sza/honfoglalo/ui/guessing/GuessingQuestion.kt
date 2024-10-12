@@ -1,5 +1,6 @@
 package bme.aut.sza.honfoglalo.ui.guessing
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
 import bme.aut.sza.honfoglalo.data.Category
@@ -28,6 +30,17 @@ fun GuessingQuestion(
     onAcceptButtonClick: () -> Unit = {},
     onDismissRequest: () -> Unit = {}
 ){
+
+    var numpadScale: Float
+    val configuration = LocalConfiguration.current
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            numpadScale = 0.5f
+        }
+        else -> {
+            numpadScale = 1f
+        }
+    }
 
     Popup(
         onDismissRequest = onDismissRequest,
@@ -46,7 +59,7 @@ fun GuessingQuestion(
             Spacer(modifier = Modifier.fillMaxHeight(0.1f))
 
             Numpad(
-                modifier = Modifier.fillMaxWidth(0.5f),
+                modifier = Modifier.fillMaxWidth(numpadScale),
                 mutableState = guess,
                 onAccept = onAcceptButtonClick
             )
@@ -61,8 +74,8 @@ fun GuessingQuestionPreview(){
     var guess = remember { mutableStateOf("") }
 
     val q = Question(
-        question = "rnaőjgnőromfpweomfúp",
-        category = Category.HISTORY,
+        question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+        category = Category.ENTERTAINMENT,
         answers = listOf("69")
     )
 
