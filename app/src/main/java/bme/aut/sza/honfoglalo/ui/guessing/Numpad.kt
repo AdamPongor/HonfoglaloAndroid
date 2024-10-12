@@ -1,43 +1,28 @@
 package bme.aut.sza.honfoglalo.ui.guessing
 
-import android.widget.GridLayout
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import bme.aut.sza.honfoglalo.R
 import bme.aut.sza.honfoglalo.ui.common.AcceptButton
 import bme.aut.sza.honfoglalo.ui.common.BackSpaceButton
 import bme.aut.sza.honfoglalo.ui.common.NumButton
@@ -72,9 +57,7 @@ fun Numpad(mutableState: MutableState<String>, onAccept: () -> Unit) {
         }
 
 
-        Row(
-            //Modifier.weight(1f)
-        ){
+        Row {
             for (i in 7..9){
                 NumButton(
                     modifier = Modifier
@@ -105,9 +88,7 @@ fun Numpad(mutableState: MutableState<String>, onAccept: () -> Unit) {
             )
         }
 
-        Row(
-            //Modifier.weight(2f)
-        ){
+        Row {
             Column (
                 Modifier.weight(3f)
             ){
