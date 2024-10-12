@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bme.aut.sza.honfoglalo.data.Region
+import bme.aut.sza.honfoglalo.ui.theme.Shade
 import kotlin.random.Random
 
 @Composable
@@ -100,7 +101,7 @@ fun RegionButton(x: Float, y: Float, offset: Array<Float>, name: String){
         onClick = { Log.d("xdd", name)},
         shape = ShapeDefaults.Small,
         contentPadding = PaddingValues(0.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(100,100,100,100)),
+        colors = ButtonDefaults.buttonColors(containerColor = Shade),
 
     ){
         Text(text = name, fontSize = 12.sp, textAlign = TextAlign.Center)

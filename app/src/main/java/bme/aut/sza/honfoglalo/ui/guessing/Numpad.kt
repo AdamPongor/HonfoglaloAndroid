@@ -1,5 +1,6 @@
 package bme.aut.sza.honfoglalo.ui.guessing
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,20 +19,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bme.aut.sza.honfoglalo.ui.common.AcceptButton
+import bme.aut.sza.honfoglalo.ui.common.AutoResizeText
 import bme.aut.sza.honfoglalo.ui.common.BackSpaceButton
+import bme.aut.sza.honfoglalo.ui.common.FontSizeRange
 import bme.aut.sza.honfoglalo.ui.common.NumButton
+import bme.aut.sza.honfoglalo.ui.theme.Tan
 
 @Composable
-fun Numpad(mutableState: MutableState<String>, onAccept: () -> Unit) {
+fun Numpad(
+    modifier: Modifier = Modifier,
+    mutableState: MutableState<String>,
+    onAccept: () -> Unit = {}) {
 
     Column(
-        Modifier.fillMaxWidth(1f),
+        modifier = modifier,
         verticalArrangement = Arrangement.Top
     )
     {
@@ -40,17 +48,19 @@ fun Numpad(mutableState: MutableState<String>, onAccept: () -> Unit) {
                 .fillMaxWidth()
                 .height(50.dp)
                 .padding(horizontal = 40.dp, vertical = 3.dp)
-                .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp),),
+                .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp))
+                .clip(CutCornerShape(10.dp))
+                .background(color = Tan),
             contentAlignment = Alignment.Center
 
         ){
-            Text(
+            AutoResizeText(
                 text = mutableState.value,
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentHeight(align = Alignment.CenterVertically),
                 textAlign = TextAlign.Center,
-                fontSize = 20.sp
+                fontSizeRange = FontSizeRange(15.sp, 30.sp)
 
 
             )
@@ -166,5 +176,7 @@ fun NumpadPreview() {
 
     var guess = remember { mutableStateOf("") }
 
-    Numpad(guess, {})
+    Numpad(
+        mutableState = guess
+    )
 }
