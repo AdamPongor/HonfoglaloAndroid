@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Honfoglalo</string>
+    <string name="art">Művészet</string>
+    <string name="everyday">Mindennapok</string>
+    <string name="geography">Földrajz</string>
+    <string name="history">Történelem</string>
+    <string name="literature">Irodalom</string>
+    <string name="maths">Matematika-Fizika</string>
+    <string name="biology">Biológia-Kémia</string>
+    <string name="sports">Sport</string>
+    <string name="entertainment">Szórakozás</string>
+    <string name="lifestyle">Életstílus</string>
+
 </resources>
