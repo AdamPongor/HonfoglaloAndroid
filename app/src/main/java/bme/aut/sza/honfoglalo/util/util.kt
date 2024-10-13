@@ -17,11 +17,10 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
 class ShapePath(private val pathData: String) : Shape {
-
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
-        density: Density
+        density: Density,
     ): Outline {
         return Outline.Generic(path = drawPath(size))
     }
@@ -35,13 +34,17 @@ class ShapePath(private val pathData: String) : Shape {
     }
 }
 
-fun String?.toPath(size: Size?, pathDestination: Path? = null): Path? {
+fun String?.toPath(
+    size: Size?,
+    pathDestination: Path? = null,
+): Path? {
     this?.let {
         size?.let {
             if (!TextUtils.isEmpty(this)) {
-                val pathDestinationResult = pathDestination ?: kotlin.run {
-                    Path()
-                }
+                val pathDestinationResult =
+                    pathDestination ?: kotlin.run {
+                        Path()
+                    }
                 val scaleMatrix = Matrix()
                 val rectF = RectF()
                 val path =

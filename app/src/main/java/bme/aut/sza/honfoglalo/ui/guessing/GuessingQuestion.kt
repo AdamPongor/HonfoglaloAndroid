@@ -28,9 +28,8 @@ fun GuessingQuestion(
     question: Question,
     guess: MutableState<String>,
     onAcceptButtonClick: () -> Unit = {},
-    onDismissRequest: () -> Unit = {}
-){
-
+    onDismissRequest: () -> Unit = {},
+) {
     var numpadScale: Float
     val configuration = LocalConfiguration.current
     when (configuration.orientation) {
@@ -46,22 +45,23 @@ fun GuessingQuestion(
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Shade),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(color = Shade),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             QuestionBox(
                 question = question.question,
-                category = question.category
+                category = question.category,
             )
-            
+
             Spacer(modifier = Modifier.fillMaxHeight(0.1f))
 
             Numpad(
                 modifier = Modifier.fillMaxWidth(numpadScale),
                 mutableState = guess,
-                onAccept = onAcceptButtonClick
+                onAccept = onAcceptButtonClick,
             )
         }
     }
@@ -69,19 +69,18 @@ fun GuessingQuestion(
 
 @Preview
 @Composable
-fun GuessingQuestionPreview(){
-
+fun GuessingQuestionPreview() {
     var guess = remember { mutableStateOf("") }
 
-    val q = Question(
-        question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
-        category = Category.ENTERTAINMENT,
-        answers = listOf("69")
-    )
+    val q =
+        Question(
+            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+            category = Category.ENTERTAINMENT,
+            answers = listOf("69"),
+        )
 
-    Box(modifier = Modifier){
+    Box(modifier = Modifier) {
         HungaryMap()
         GuessingQuestion(q, guess)
     }
-
 }

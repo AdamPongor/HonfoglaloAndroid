@@ -15,9 +15,10 @@ enum class Category(val string: Int, val icon: Int) {
     BIOLOGY_CHEMISTRY(R.string.biology, R.drawable.biology),
     SPORTS(R.string.sports, R.drawable.sports),
     ENTERTAINMENT(R.string.entertainment, R.drawable.entertainment),
-    LIFESTYLE(R.string.lifestyle, R.drawable.lifestyle);
+    LIFESTYLE(R.string.lifestyle, R.drawable.lifestyle),
+    ;
 
-    fun getString(c: Category): String{
+    fun getString(c: Category): String {
         return c.string.toString()
     }
 

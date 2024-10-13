@@ -4,9 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CutCornerShape
@@ -20,70 +20,58 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import bme.aut.sza.honfoglalo.data.Player
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PlayerInfo(
-    name: String,
-    score: Int,
-    color: Color
-){
-    Column (
-        //modifier = Modifier.fillMaxWidth(0.3f),
-        horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
+fun PlayerInfo(player: Player) {
+    Column(
+        // modifier = Modifier.fillMaxWidth(0.3f),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(50.dp)
-                .padding(3.dp)
-                .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp),)
-                .background(color, CutCornerShape(10.dp)),
-            contentAlignment = Alignment.Center
-
-        ){
-            OutlinedText(
-                text = score.toString(),
-                modifier = Modifier
-                    .wrapContentWidth(Alignment.CenterHorizontally)
-                    .wrapContentHeight(align = Alignment.CenterVertically),
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp,
-                fillColor = Color.White,
-                outlineColor = Color.Black,
-                outlineDrawStyle = Stroke(width = 7f)
-            )
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .padding(3.dp)
-                .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp),)
-                .background(color, CutCornerShape(10.dp)),
-            contentAlignment = Alignment.Center
-
-        ){
-            OutlinedText(
-                text = name,
-                modifier = Modifier
-                    .wrapContentWidth(Alignment.CenterHorizontally)
-                    .wrapContentHeight(align = Alignment.CenterVertically),
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp,
-                fillColor = Color.White,
-                outlineColor = Color.Black,
-                outlineDrawStyle = Stroke(width = 7f)
-
-            )
+            modifier =
+                Modifier
+                    .width(100.dp)
+                    .height(50.dp)
+                    .padding(3.dp)
+                    .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp))
+                    .background(player.color, CutCornerShape(10.dp)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column {
+                OutlinedText(
+                    text = player.name,
+                    modifier =
+                        Modifier
+                            .wrapContentWidth(Alignment.CenterHorizontally)
+                            .wrapContentHeight(align = Alignment.CenterVertically),
+                    textAlign = TextAlign.Center,
+                    fontSize = 15.sp,
+                    fillColor = Color.White,
+                    outlineColor = Color.Black,
+                    outlineDrawStyle = Stroke(width = 7f),
+                )
+                OutlinedText(
+                    text = player.score.toString(),
+                    modifier =
+                        Modifier
+                            .wrapContentWidth(Alignment.CenterHorizontally)
+                            .wrapContentHeight(align = Alignment.CenterVertically),
+                    textAlign = TextAlign.Center,
+                    fontSize = 10.sp,
+                    fillColor = Color.White,
+                    outlineColor = Color.Black,
+                    outlineDrawStyle = Stroke(width = 7f),
+                )
+            }
         }
     }
-
 }
 
 @Preview
 @Composable
-fun PlayerInfoPreview(){
-    PlayerInfo("Lajos", 6900, Color.Red)
+fun PlayerInfoPreview() {
+    val player = Player("Lajos", 6900, Color.Red)
+    PlayerInfo(player)
 }

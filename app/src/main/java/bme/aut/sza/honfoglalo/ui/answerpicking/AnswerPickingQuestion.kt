@@ -23,16 +23,16 @@ fun AnswerPickingQuestion(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
 ) {
-    Popup (
-        onDismissRequest = onDismissRequest
+    Popup(
+        onDismissRequest = onDismissRequest,
     ) {
-        Column (
+        Column(
             modifier = modifier.fillMaxSize().background(color = Shade),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             QuestionBox(
                 question = question.question,
-                category = question.category
+                category = question.category,
             )
 
             Spacer(modifier = modifier.fillMaxHeight(0.1f))
@@ -47,11 +47,12 @@ fun AnswerPickingQuestion(
 @Preview
 @Composable
 fun AnswerPickingQuestionPreview() {
-    val q = Question(
-        question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
-        category = Category.ENTERTAINMENT,
-        answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4")
-    )
+    val q =
+        Question(
+            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+            category = Category.ENTERTAINMENT,
+            answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
+        )
 
     Box(modifier = Modifier) {
         HungaryMap()

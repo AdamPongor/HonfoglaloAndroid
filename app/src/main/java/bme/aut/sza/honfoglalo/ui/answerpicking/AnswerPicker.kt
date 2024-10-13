@@ -15,15 +15,16 @@ import bme.aut.sza.honfoglalo.ui.common.AnswerButton
 @Composable
 fun AnswerPicker(
     answers: List<String>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = modifier
-            .fillMaxSize()
-            .padding(8.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp),
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         items(answers) { answer ->
             AnswerButton(answer = answer)
