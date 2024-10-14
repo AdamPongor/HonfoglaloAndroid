@@ -1,9 +1,7 @@
 package bme.aut.sza.honfoglalo.ui.common
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CutCornerShape
@@ -17,20 +15,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import bme.aut.sza.honfoglalo.ui.theme.Tan
 
 @Composable
 fun AnswerButton(
     answer: String,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
     Button(
         onClick = { onClick() },
         shape = CutCornerShape(10.dp),
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .aspectRatio(2f)
+            modifier
                 .padding(4.dp)
                 .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp)),
         colors = ButtonDefaults.buttonColors(Color.Gray),
