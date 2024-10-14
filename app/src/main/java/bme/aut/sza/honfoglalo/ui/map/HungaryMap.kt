@@ -29,14 +29,12 @@ import bme.aut.sza.honfoglalo.ui.theme.Shade
 import kotlin.random.Random
 
 @Composable
-fun HungaryMap(){
-
+fun HungaryMap() {
     Column(
         modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-
-        var xSize : Float
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        var xSize: Float
         var ySize: Float
 
         val configuration = LocalConfiguration.current
@@ -52,20 +50,21 @@ fun HungaryMap(){
         }
 
         BoxWithConstraints(
-            modifier = Modifier
-                .background(color = Color.Gray)
-                .fillMaxWidth(xSize)
-                .fillMaxHeight(ySize),
-        ){
+            modifier =
+                Modifier
+                    .background(color = Color.Gray)
+                    .fillMaxWidth(xSize)
+                    .fillMaxHeight(ySize),
+        ) {
             val y = maxHeight.value
             val x = maxWidth.value
 
-            for ( r : Region in Region.entries){
+            for (r: Region in Region.entries) {
                 Icon(
                     modifier = Modifier,
                     painter = painterResource(id = r.Resource),
                     tint = Color(Random.nextInt(0, 255), Random.nextInt(0, 255), Random.nextInt(0, 255), alpha = 100),
-                    contentDescription = r.Name
+                    contentDescription = r.Name,
                 )
             }
             RegionButton(x, y, arrayOf(2.3f, 2.6f), "Pest")
@@ -92,24 +91,29 @@ fun HungaryMap(){
 }
 
 @Composable
-fun RegionButton(x: Float, y: Float, offset: Array<Float>, name: String){
-    Button (
-        modifier = Modifier
-            .fillMaxHeight(0.10f)
-            .fillMaxWidth(0.10f)
-            .offset(x = (x / offset[0]).dp, y = (y / offset[1]).dp),
-        onClick = { Log.d("xdd", name)},
+fun RegionButton(
+    x: Float,
+    y: Float,
+    offset: Array<Float>,
+    name: String,
+) {
+    Button(
+        modifier =
+            Modifier
+                .fillMaxHeight(0.10f)
+                .fillMaxWidth(0.10f)
+                .offset(x = (x / offset[0]).dp, y = (y / offset[1]).dp),
+        onClick = { Log.d("xdd", name) },
         shape = ShapeDefaults.Small,
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Shade),
-
-    ){
+    ) {
         Text(text = name, fontSize = 12.sp, textAlign = TextAlign.Center)
     }
 }
 
 @Preview
 @Composable
-fun MapPreview(){
+fun MapPreview() {
     HungaryMap()
 }

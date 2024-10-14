@@ -28,48 +28,48 @@ fun MultiColorButton(
     colors: Array<Color>,
     text: String,
     onClick: () -> Unit,
-){
-
+) {
     val stops = mutableListOf<Pair<Float, Color>>()
 
-    //stops.add(0.0f to colors[0])
+    // stops.add(0.0f to colors[0])
 
-    for (index in colors.indices){
+    for (index in colors.indices) {
         stops.add((index / colors.size.toFloat() to colors[index]))
         stops.add(((index + 1) / colors.size.toFloat() to colors[index]))
     }
     Log.d("xd", stops.toString())
-    //stops.add(1.0f to colors[colors.lastIndex])
+    // stops.add(1.0f to colors[colors.lastIndex])
 
     Button(
         modifier = modifier,
         onClick = onClick,
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
-        ),
-        border = BorderStroke(color = Color.Black, width = 3.dp)
-    ){
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+            ),
+        border = BorderStroke(color = Color.Black, width = 3.dp),
+    ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.horizontalGradient(colorStops = stops.toTypedArray()),
-                )
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = Brush.horizontalGradient(colorStops = stops.toTypedArray()),
+                    )
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            contentAlignment = Alignment.Center,
         ) {
             OutlinedText(
                 text = text,
                 fontSize = 20.sp,
                 fillColor = Color.Black,
                 outlineColor = Color.White,
-                outlineDrawStyle = Stroke(width = 5f)
+                outlineDrawStyle = Stroke(width = 5f),
             )
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -78,7 +78,7 @@ fun ButtonPreview() {
         MultiColorButton(
             colors = arrayOf(Color.Green, Color.Blue),
             text = "Ez egy hosszú válasz xdddd",
-            onClick = { }
+            onClick = { },
         )
     }
 }

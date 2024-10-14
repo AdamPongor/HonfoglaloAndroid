@@ -58,9 +58,9 @@ fun AutoResizeText(
         style = style,
         fontSize = fontSizeValue.sp,
         onTextLayout = {
-            Log.d("xdd","onTextLayout")
+            Log.d("xdd", "onTextLayout")
             if (it.didOverflowHeight && !readyToDraw) {
-                Log.d("xdd","Did Overflow height, calculate next font size value")
+                Log.d("xdd", "Did Overflow height, calculate next font size value")
                 val nextFontSizeValue = fontSizeValue - fontSizeRange.step.value
                 if (nextFontSizeValue <= fontSizeRange.min.value) {
                     // Reached minimum, set minimum font size and it's readToDraw
@@ -75,7 +75,7 @@ fun AutoResizeText(
                 readyToDraw = true
             }
         },
-        modifier = modifier.drawWithContent { if (readyToDraw) drawContent() }
+        modifier = modifier.drawWithContent { if (readyToDraw) drawContent() },
     )
 }
 
