@@ -6,11 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import bme.aut.sza.honfoglalo.data.Player
 import bme.aut.sza.honfoglalo.ui.screens.GameScreen
 import bme.aut.sza.honfoglalo.ui.theme.HonfoglaloTheme
@@ -20,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val players =
-            listOf<Player>(
+            listOf(
                 Player("Alice", 50, Color.Red),
                 Player("Bob", 50, Color.Blue),
                 Player("Dave", 50, Color.Green),
@@ -36,24 +33,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(
-    name: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier,
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HonfoglaloTheme {
-        Greeting("Android")
     }
 }

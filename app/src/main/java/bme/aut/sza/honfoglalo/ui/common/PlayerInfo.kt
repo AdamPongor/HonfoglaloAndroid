@@ -2,6 +2,7 @@ package bme.aut.sza.honfoglalo.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -26,20 +27,23 @@ import bme.aut.sza.honfoglalo.data.Player
 @Composable
 fun PlayerInfo(player: Player) {
     Column(
-        // modifier = Modifier.fillMaxWidth(0.3f),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.padding(4.dp),
     ) {
         Box(
             modifier =
                 Modifier
-                    .width(100.dp)
-                    .height(50.dp)
+                    .width(130.dp)
+                    .height(100.dp)
                     .padding(3.dp)
                     .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp))
                     .background(player.color, CutCornerShape(10.dp)),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.CenterStart,
         ) {
-            Column {
+            Column(
+                modifier = Modifier.padding(horizontal = 20.dp),
+            ) {
                 OutlinedText(
                     text = player.name,
                     modifier =
@@ -47,7 +51,7 @@ fun PlayerInfo(player: Player) {
                             .wrapContentWidth(Alignment.CenterHorizontally)
                             .wrapContentHeight(align = Alignment.CenterVertically),
                     textAlign = TextAlign.Center,
-                    fontSize = 15.sp,
+                    fontSize = 25.sp,
                     fillColor = Color.White,
                     outlineColor = Color.Black,
                     outlineDrawStyle = Stroke(width = 7f),
@@ -59,7 +63,7 @@ fun PlayerInfo(player: Player) {
                             .wrapContentWidth(Alignment.CenterHorizontally)
                             .wrapContentHeight(align = Alignment.CenterVertically),
                     textAlign = TextAlign.Center,
-                    fontSize = 10.sp,
+                    fontSize = 20.sp,
                     fillColor = Color.White,
                     outlineColor = Color.Black,
                     outlineDrawStyle = Stroke(width = 7f),

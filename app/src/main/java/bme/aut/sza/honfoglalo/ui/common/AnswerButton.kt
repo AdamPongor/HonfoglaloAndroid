@@ -33,7 +33,7 @@ fun AnswerButton(
                 .aspectRatio(2f)
                 .padding(4.dp)
                 .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp)),
-        colors = ButtonDefaults.buttonColors(Tan),
+        colors = ButtonDefaults.buttonColors(Color.Gray),
     ) {
         AutoResizeText(
             text = answer,
