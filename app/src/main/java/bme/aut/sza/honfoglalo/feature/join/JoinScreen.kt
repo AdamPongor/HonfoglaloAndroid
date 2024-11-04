@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun JoinScreen(lvm: JoinViewModel = hiltViewModel()) {
+fun JoinScreen(jvm: JoinViewModel = hiltViewModel()) {
 
     var usernameValue by remember { mutableStateOf("") }
 
@@ -47,7 +47,7 @@ fun JoinScreen(lvm: JoinViewModel = hiltViewModel()) {
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = "") {
-        usernameValue = lvm.getUsername()
+        usernameValue = jvm.getUsername()
     }
 
     //TODO: DELETE LATER
@@ -104,7 +104,7 @@ fun JoinScreen(lvm: JoinViewModel = hiltViewModel()) {
             onClick = {
                 /*TODO: Make websocket connection*/
                 scope.launch {
-                    lvm.saveUsername(usernameValue)
+                    jvm.saveUsername(usernameValue)
                     //TODO: DELETE LATER
                     snackbarHostState.showSnackbar("Join room ${roomCodeValue} with name ${usernameValue}")
                 }
@@ -118,6 +118,6 @@ fun JoinScreen(lvm: JoinViewModel = hiltViewModel()) {
 
 @Preview
 @Composable
-private fun LobbyPreview() {
+private fun JoinPreview() {
     JoinScreen()
 }
