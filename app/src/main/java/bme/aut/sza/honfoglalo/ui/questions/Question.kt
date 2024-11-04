@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.ui.common
+package bme.aut.sza.honfoglalo.ui.questions
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bme.aut.sza.honfoglalo.data.Category
+import bme.aut.sza.honfoglalo.ui.common.AutoResizeText
+import bme.aut.sza.honfoglalo.ui.common.FontSizeRange
 import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 import bme.aut.sza.honfoglalo.ui.theme.Tan
 

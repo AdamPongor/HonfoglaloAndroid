@@ -1,8 +1,7 @@
 package bme.aut.sza.honfoglalo.feature.join
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import bme.aut.sza.honfoglalo.data.PreferencesImpl
+import bme.aut.sza.honfoglalo.data.datasource.PreferencesImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,9 +25,5 @@ class JoinViewModel @Inject constructor(
 
     fun ConnectWebSocket() {
         /*TODO*/
-    }
-
-    fun LogShit() {
-        Log.d("pp", "xd")
     }
 }

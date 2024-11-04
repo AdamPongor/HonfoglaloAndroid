@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.data
+package bme.aut.sza.honfoglalo.data.datasource
 
 
 import androidx.datastore.core.DataStore

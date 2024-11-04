@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.util
+package bme.aut.sza.honfoglalo.ui.util
 
 import android.content.Context
 import android.graphics.Rect

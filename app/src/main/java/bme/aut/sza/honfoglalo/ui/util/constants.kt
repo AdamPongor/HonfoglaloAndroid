@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.util
+package bme.aut.sza.honfoglalo.ui.util
 
 object Constants {
     const val GEOJSON_FILE_NAME = "hungary.geojson"

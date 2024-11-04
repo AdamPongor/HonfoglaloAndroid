@@ -42,14 +42,15 @@ fun JoinScreen(lvm: JoinViewModel = hiltViewModel()) {
 
     var roomCodeValue by rememberSaveable { mutableStateOf("") }
 
-    //TODO: DELETE LATER
     val scope = rememberCoroutineScope()
+    //TODO: DELETE LATER
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = "") {
         usernameValue = lvm.getUsername()
     }
 
+    //TODO: DELETE LATER
     SnackbarHost(hostState = snackbarHostState)
 
     Column(
@@ -104,6 +105,7 @@ fun JoinScreen(lvm: JoinViewModel = hiltViewModel()) {
                 /*TODO: Make websocket connection*/
                 scope.launch {
                     lvm.saveUsername(usernameValue)
+                    //TODO: DELETE LATER
                     snackbarHostState.showSnackbar("Join room ${roomCodeValue} with name ${usernameValue}")
                 }
             }

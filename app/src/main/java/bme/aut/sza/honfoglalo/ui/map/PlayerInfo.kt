@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.ui.common
+package bme.aut.sza.honfoglalo.ui.map
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bme.aut.sza.honfoglalo.data.Player
+import bme.aut.sza.honfoglalo.ui.common.OutlinedText
 import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 
 @OptIn(ExperimentalComposeUiApi::class)

@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.ui.guessing
+package bme.aut.sza.honfoglalo.ui.questions.guessing
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

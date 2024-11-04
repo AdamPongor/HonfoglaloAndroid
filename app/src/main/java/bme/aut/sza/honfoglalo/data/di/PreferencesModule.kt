@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import bme.aut.sza.honfoglalo.data.UserPreferences
+import bme.aut.sza.honfoglalo.data.datasource.UserPreferences
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

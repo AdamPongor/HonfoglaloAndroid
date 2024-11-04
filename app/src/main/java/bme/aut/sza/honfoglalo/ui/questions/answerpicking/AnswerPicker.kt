@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.ui.answerpicking
+package bme.aut.sza.honfoglalo.ui.questions.answerpicking
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

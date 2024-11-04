@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.ui.common
+package bme.aut.sza.honfoglalo.ui.map
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
