@@ -36,6 +36,7 @@ fun GuessingQuestion(
         Configuration.ORIENTATION_LANDSCAPE -> {
             numpadScale = 0.5f
         }
+
         else -> {
             numpadScale = 1f
         }
@@ -46,9 +47,9 @@ fun GuessingQuestion(
     ) {
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .background(color = Shade),
+            Modifier
+                .fillMaxSize()
+                .background(color = Shade),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             QuestionBox(

@@ -43,6 +43,7 @@ fun HungaryMap() {
                 xSize = 0.69f
                 ySize = 1f
             }
+
             else -> {
                 xSize = 1f
                 ySize = 0.29f
@@ -51,10 +52,10 @@ fun HungaryMap() {
 
         BoxWithConstraints(
             modifier =
-                Modifier
-                    .background(color = Color.Gray)
-                    .fillMaxWidth(xSize)
-                    .fillMaxHeight(ySize),
+            Modifier
+                .background(color = Color.Gray)
+                .fillMaxWidth(xSize)
+                .fillMaxHeight(ySize),
         ) {
             val y = maxHeight.value
             val x = maxWidth.value
@@ -63,7 +64,12 @@ fun HungaryMap() {
                 Icon(
                     modifier = Modifier,
                     painter = painterResource(id = r.Resource),
-                    tint = Color(Random.nextInt(0, 255), Random.nextInt(0, 255), Random.nextInt(0, 255), alpha = 100),
+                    tint = Color(
+                        Random.nextInt(0, 255),
+                        Random.nextInt(0, 255),
+                        Random.nextInt(0, 255),
+                        alpha = 100
+                    ),
                     contentDescription = r.Name,
                 )
             }
@@ -99,10 +105,10 @@ fun RegionButton(
 ) {
     Button(
         modifier =
-            Modifier
-                .fillMaxHeight(0.10f)
-                .fillMaxWidth(0.10f)
-                .offset(x = (x / offset[0]).dp, y = (y / offset[1]).dp),
+        Modifier
+            .fillMaxHeight(0.10f)
+            .fillMaxWidth(0.10f)
+            .offset(x = (x / offset[0]).dp, y = (y / offset[1]).dp),
         onClick = { Log.d("xdd", name) },
         shape = ShapeDefaults.Small,
         contentPadding = PaddingValues(0.dp),

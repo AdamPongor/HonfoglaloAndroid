@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.ui.screens
+package bme.aut.sza.honfoglalo.feature.game
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -60,16 +60,16 @@ fun GameScreen(
         if (isPortrait) {
             Column(
                 modifier =
-                    Modifier
-                        .fillMaxSize(),
+                Modifier
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Row(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     players.forEach { player ->
@@ -84,16 +84,16 @@ fun GameScreen(
         } else {
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxSize(),
+                Modifier
+                    .fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(
                     modifier =
-                        Modifier
-                            .padding(start = 16.dp)
-                            .weight(1f),
+                    Modifier
+                        .padding(start = 16.dp)
+                        .weight(1f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start,
                 ) {

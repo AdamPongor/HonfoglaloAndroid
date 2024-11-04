@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bme.aut.sza.honfoglalo.data.Category
+import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 import bme.aut.sza.honfoglalo.ui.theme.Tan
 
 @Composable
@@ -32,13 +32,13 @@ fun QuestionBox(
 ) {
     Box(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.2f)
-                .padding(3.dp)
-                .border(width = 3.dp, color = Color.Black, shape = CutCornerShape(10.dp))
-                .clip(CutCornerShape(10.dp))
-                .background(color = Tan),
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.2f)
+            .padding(3.dp)
+            .border(width = 3.dp, color = Color.Black, shape = FlatCornerShape)
+            .clip(FlatCornerShape)
+            .background(color = Tan),
         contentAlignment = Alignment.Center,
     ) {
         Row(
@@ -49,21 +49,23 @@ fun QuestionBox(
                 painterResource(id = category.icon),
                 category.string.toString(),
                 modifier =
-                    Modifier
-                        .weight(1f)
-                        .padding(start = 5.dp),
+                Modifier
+                    .weight(1f)
+                    .padding(start = 5.dp),
             )
             AutoResizeText(
                 text = question,
                 modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                        .weight(8f),
+                Modifier
+                    .fillMaxSize()
+                    .wrapContentHeight(align = Alignment.CenterVertically)
+                    .weight(8f),
                 textAlign = TextAlign.Center,
                 fontSizeRange = FontSizeRange(5.sp, 25.sp),
             )
-            Spacer(modifier = Modifier.weight(1f).padding(end = 5.dp))
+            Spacer(modifier = Modifier
+                .weight(1f)
+                .padding(end = 5.dp))
         }
     }
 }

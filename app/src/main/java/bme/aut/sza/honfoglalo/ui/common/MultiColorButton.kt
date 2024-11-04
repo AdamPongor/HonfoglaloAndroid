@@ -45,19 +45,19 @@ fun MultiColorButton(
         onClick = onClick,
         contentPadding = PaddingValues(),
         colors =
-            ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-            ),
+        ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+        ),
         border = BorderStroke(color = Color.Black, width = 3.dp),
     ) {
         Box(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = Brush.horizontalGradient(colorStops = stops.toTypedArray()),
-                    )
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.horizontalGradient(colorStops = stops.toTypedArray()),
+                )
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center,
         ) {
             OutlinedText(

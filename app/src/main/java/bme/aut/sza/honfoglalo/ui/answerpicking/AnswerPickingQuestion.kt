@@ -27,7 +27,9 @@ fun AnswerPickingQuestion(
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = modifier.fillMaxSize().background(color = Shade),
+            modifier = modifier
+                .fillMaxSize()
+                .background(color = Shade),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             QuestionBox(

@@ -9,9 +9,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import bme.aut.sza.honfoglalo.data.Player
-import bme.aut.sza.honfoglalo.ui.screens.GameScreen
+import bme.aut.sza.honfoglalo.feature.join.JoinScreen
 import bme.aut.sza.honfoglalo.ui.theme.HonfoglaloTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    GameScreen(players, 10, 4)
+                    JoinScreen()
+                    //GameScreen(players, 10, 4)
                 }
             }
         }
