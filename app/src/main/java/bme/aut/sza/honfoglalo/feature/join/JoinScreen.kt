@@ -1,5 +1,6 @@
 package bme.aut.sza.honfoglalo.feature.join
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -33,26 +35,26 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import bme.aut.sza.honfoglalo.R
+import bme.aut.sza.honfoglalo.data.util.getDeviceIPAddress
 import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 import bme.aut.sza.honfoglalo.ui.theme.Purple40
+import bme.aut.sza.honfoglalo.ui.util.UiEvent
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun JoinScreen(viewModel: JoinViewModel = hiltViewModel()) {
+fun JoinScreen(
+    onJoinGame: () -> Unit,
+    viewModel: JoinViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
+    val uiEventFlow = viewModel.uiEvent
     val scope = rememberCoroutineScope()
 
     //TODO: DELETE LATER
     val hostState = remember { SnackbarHostState() }
-
     val context = LocalContext.current
-
-//    TODO: Ezt kitalálni hogy legyen
-//    LaunchedEffect(key1 = "") {
-//        usernameValue = viewModel.getUsername()
-//    }
 
     Scaffold (
         snackbarHost = { SnackbarHost(hostState) },
@@ -106,6 +108,19 @@ fun JoinScreen(viewModel: JoinViewModel = hiltViewModel()) {
                 shape = FlatCornerShape,
                 onClick = {
                     viewModel.onEvent(JoinGameEvent.joinGame)
+                    scope.launch {
+                        uiEventFlow.collect { event ->
+                            when (event) {
+                                is UiEvent.Failure -> {
+                                    hostState.showSnackbar(event.message.asString(context))
+                                }
+
+                                UiEvent.Success -> {
+                                    onJoinGame()
+                                }
+                            }
+                        }
+                    }
                     /*TODO: Make websocket connection*/
 //                    scope.launch {
 //                        viewModel.saveUsername(usernameValue)

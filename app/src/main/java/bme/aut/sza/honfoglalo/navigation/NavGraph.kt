@@ -15,7 +15,11 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
         startDestination = Screen.Join.route,
     ) {
         composable(Screen.Join.route) {
-            JoinScreen()
+            JoinScreen(
+                onJoinGame = {
+                    navController.navigate(Screen.Lobby.route)
+                }
+            )
         }
         composable(Screen.Lobby.route) {
             LobbyScreen()

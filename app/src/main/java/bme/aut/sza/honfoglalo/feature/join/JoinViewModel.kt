@@ -3,9 +3,12 @@ package bme.aut.sza.honfoglalo.feature.join
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import bme.aut.sza.honfoglalo.data.GameEvents
 import bme.aut.sza.honfoglalo.data.datasource.PreferencesImpl
+import bme.aut.sza.honfoglalo.data.GameStates
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.ui.model.JoinRoomUi
+import bme.aut.sza.honfoglalo.ui.model.toUiText
 import bme.aut.sza.honfoglalo.ui.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -18,12 +21,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.lang.Error
 import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
     private val prefs: PreferencesImpl,
-    private val socket: SocketHandler,
+    private val socketHandler: SocketHandler,
 ) : ViewModel() {
     private val _state = MutableStateFlow(JoinGameState())
     val state = _state.asStateFlow()
@@ -33,7 +37,6 @@ class JoinViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            socket.establishConnection()
             _state.update {
                 it.copy(
                     joinData = it.joinData.copy(username = getUsername())
@@ -87,13 +90,39 @@ class JoinViewModel @Inject constructor(
         return username
     }
 
-    private fun joinGame() {
-        val socket = socket.getSocket()
-        socket.emit("joinGame",  JSONObject().apply {
+    private suspend fun joinGame(){
+        val ip = prefs.getPreference(prefs.serverIP)
+            .stateIn(CoroutineScope(Dispatchers.IO)).value ?: "10.0.2.2"
+        socketHandler.setSocket(ip)
+        socketHandler.establishConnection()
+        val socket = socketHandler.getSocket()
+        socket.emit(GameEvents.JOIN_GAME.Name,  JSONObject().apply {
                 put("code", state.value.joinData.roomCode)
                 put("name", state.value.joinData.username)
             }
         )
+        socket.on(GameEvents.GAME_UPDATED.Name) { args ->
+
+            Log.d("xdd", args[0].toString())
+            val game = JSONObject(args[0].toString()).getJSONObject("game")
+            val gameState = game.getString("state")
+            if(gameState == GameStates.LOBBY.Name){
+                Log.d("xdd", "Navigate here")
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Success) // Emit navigation event
+                }
+            }
+            else if(gameState == GameStates.INCORRECT_ROOM.Name){
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Failure(Error("Failed to join game").toUiText())) // Emit navigation event
+                }
+            }
+            else {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Failure(Error("Game already started").toUiText())) // Emit navigation event
+                }
+            }
+        }
     }
 }
 
@@ -105,4 +134,7 @@ sealed class JoinGameEvent {
     data class ChangeUsername(val text: String): JoinGameEvent()
     data class ChangeRoomCode(val text: String): JoinGameEvent()
     data object joinGame: JoinGameEvent()
+}
+
+sealed class UiEvent {
 }

@@ -28,6 +28,7 @@ class PreferencesImpl @Inject constructor(
 ) : UserPreferences {
 
     val USERNAME = stringPreferencesKey(name = "USERNAME")
+    val serverIP = stringPreferencesKey(name = "SERVERIP")
 
     override suspend fun <T> setPreference(
         name: T,

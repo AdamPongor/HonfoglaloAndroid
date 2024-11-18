@@ -8,22 +8,33 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.lifecycleScope
 import bme.aut.sza.honfoglalo.data.Player
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.navigation.NavGraph
 import bme.aut.sza.honfoglalo.ui.theme.HonfoglaloTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.json.JSONObject
+import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var socketHandler: SocketHandler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        SocketHandler.setSocket()
-        SocketHandler.establishConnection()
+        /*lifecycleScope.launch {
+            socketHandler.setSocket()
+            socketHandler.establishConnection()
+        }*/
 
         setContent {
             HonfoglaloTheme {
@@ -50,6 +61,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        SocketHandler.closeConnection()
+        socketHandler.closeConnection()
     }
 }
