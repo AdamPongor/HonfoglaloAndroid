@@ -1,10 +1,14 @@
-package bme.aut.sza.honfoglalo.ui.common
+package bme.aut.sza.honfoglalo.ui.map
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +19,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 
 @Composable
 fun RoundCounter(
@@ -23,12 +28,12 @@ fun RoundCounter(
 ) {
     Box(
         modifier =
-            Modifier
-                .size(100.dp)
-                .padding(4.dp)
-                .border(width = 2.dp, color = Color.Black, shape = CutCornerShape(8.dp))
-                .clip(CutCornerShape(8.dp))
-                .background(color = Color(0xFFD2B48C)),
+        Modifier
+            .size(100.dp)
+            .padding(4.dp)
+            .border(width = 2.dp, color = Color.Black, shape = FlatCornerShape)
+            .clip(FlatCornerShape)
+            .background(color = Color(0xFFD2B48C)),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -44,7 +49,9 @@ fun RoundCounter(
             )
 
             Box(contentAlignment = Alignment.Center) {
-                Canvas(modifier = Modifier.size(60.dp).padding(0.dp)) {
+                Canvas(modifier = Modifier
+                    .size(60.dp)
+                    .padding(0.dp)) {
                     drawCircle(
                         color = Color.Gray,
                         style = Stroke(width = 10f),

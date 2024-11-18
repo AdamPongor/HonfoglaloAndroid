@@ -1,33 +1,55 @@
-package bme.aut.sza.honfoglalo.ui.answerpicking
+package bme.aut.sza.honfoglalo.ui.questions.guessing
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
 import bme.aut.sza.honfoglalo.data.Category
 import bme.aut.sza.honfoglalo.data.Question
-import bme.aut.sza.honfoglalo.ui.common.QuestionBox
+import bme.aut.sza.honfoglalo.ui.questions.QuestionBox
 import bme.aut.sza.honfoglalo.ui.map.HungaryMap
 import bme.aut.sza.honfoglalo.ui.theme.Shade
 
 @Composable
-fun AnswerPickingQuestion(
+fun GuessingQuestion(
     question: Question,
-    modifier: Modifier = Modifier,
+    guess: MutableState<String>,
+    onAcceptButtonClick: () -> Unit = {},
     onDismissRequest: () -> Unit = {},
 ) {
+    var numpadScale: Float
+    val configuration = LocalConfiguration.current
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            numpadScale = 0.5f
+        }
+
+        else -> {
+            numpadScale = 1f
+        }
+    }
+
     Popup(
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = modifier.fillMaxSize().background(color = Shade),
+            modifier =
+            Modifier
+                .fillMaxSize()
+                .background(color = Shade),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             QuestionBox(
@@ -35,10 +57,12 @@ fun AnswerPickingQuestion(
                 category = question.category,
             )
 
-            Spacer(modifier = modifier.fillMaxHeight(0.1f))
+            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
 
-            AnswerPicker(
-                answers = question.answers,
+            Numpad(
+                modifier = Modifier.fillMaxWidth(numpadScale),
+                mutableState = guess,
+                onAccept = onAcceptButtonClick,
             )
         }
     }
@@ -46,16 +70,18 @@ fun AnswerPickingQuestion(
 
 @Preview
 @Composable
-fun AnswerPickingQuestionPreview() {
+fun GuessingQuestionPreview() {
+    var guess = remember { mutableStateOf("") }
+
     val q =
         Question(
             question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
             category = Category.ENTERTAINMENT,
-            answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
+            answers = listOf("69"),
         )
 
     Box(modifier = Modifier) {
         HungaryMap()
-        AnswerPickingQuestion(question = q)
+        GuessingQuestion(q, guess)
     }
 }

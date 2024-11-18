@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.ui.screens
+package bme.aut.sza.honfoglalo.feature.game
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -21,10 +21,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import bme.aut.sza.honfoglalo.data.County
 import bme.aut.sza.honfoglalo.data.Player
-import bme.aut.sza.honfoglalo.ui.common.PlayerInfo
-import bme.aut.sza.honfoglalo.ui.common.RoundCounter
+import bme.aut.sza.honfoglalo.ui.map.PlayerInfo
+import bme.aut.sza.honfoglalo.ui.map.RoundCounter
 import bme.aut.sza.honfoglalo.ui.map.GameMap
-import bme.aut.sza.honfoglalo.util.loadGeoJson
+import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
 
 @Composable
 fun GameScreen(
@@ -60,16 +60,16 @@ fun GameScreen(
         if (isPortrait) {
             Column(
                 modifier =
-                    Modifier
-                        .fillMaxSize(),
+                Modifier
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Row(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     players.forEach { player ->
@@ -84,16 +84,16 @@ fun GameScreen(
         } else {
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxSize(),
+                Modifier
+                    .fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(
                     modifier =
-                        Modifier
-                            .padding(start = 16.dp)
-                            .weight(1f),
+                    Modifier
+                        .padding(start = 16.dp)
+                        .weight(1f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start,
                 ) {

@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.util
+package bme.aut.sza.honfoglalo.ui.util
 
 import android.content.Context
 import android.graphics.Matrix
@@ -51,7 +51,12 @@ fun String?.toPath(
                     PathParser().parsePathString(this)
                         .toPath(pathDestinationResult)
                 val bounds = path.getBounds()
-                val rectPath = Rect(bounds.left.toInt(), bounds.top.toInt(), bounds.right.toInt(), bounds.bottom.toInt())
+                val rectPath = Rect(
+                    bounds.left.toInt(),
+                    bounds.top.toInt(),
+                    bounds.right.toInt(),
+                    bounds.bottom.toInt()
+                )
                 val scaleXFactor = size.width / rectPath.width().toFloat()
                 val scaleYFactor = size.height / rectPath.height().toFloat()
                 val androidPath = path.asAndroidPath()
