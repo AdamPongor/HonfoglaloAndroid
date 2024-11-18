@@ -1,8 +1,10 @@
 package bme.aut.sza.honfoglalo.feature.join
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bme.aut.sza.honfoglalo.data.datasource.PreferencesImpl
+import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.ui.model.JoinRoomUi
 import bme.aut.sza.honfoglalo.ui.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,11 +17,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val prefs: PreferencesImpl
+    private val prefs: PreferencesImpl,
+    private val socket: SocketHandler,
 ) : ViewModel() {
     private val _state = MutableStateFlow(JoinGameState())
     val state = _state.asStateFlow()
@@ -28,7 +32,14 @@ class JoinViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-
+        viewModelScope.launch {
+            socket.establishConnection()
+            _state.update {
+                it.copy(
+                    joinData = it.joinData.copy(username = getUsername())
+                )
+            }
+        }
     }
 
     fun onEvent (event: JoinGameEvent) {
@@ -49,28 +60,40 @@ class JoinViewModel @Inject constructor(
                     )
                 }
             }
-            JoinGameEvent.joinGame -> TODO()
+            JoinGameEvent.joinGame -> {
+                onJoin()
+            }
         }
     }
 
     private fun onJoin() {
         viewModelScope.launch {
-            // TODO - join through WS and save preferences
+           joinGame()
+           saveUsername(_state.value.joinData.username)
         }
     }
 
 
     suspend fun saveUsername(name: String) {
+        Log.d("Username: ", name)
         prefs.setPreference(name = name, key = prefs.USERNAME)
     }
 
     suspend fun getUsername(): String {
-        return prefs.getPreference(key = prefs.USERNAME)
+        val username =
+         prefs.getPreference(key = prefs.USERNAME)
             .stateIn(CoroutineScope(Dispatchers.IO)).value ?: ""
+        Log.d("Username: ", username)
+        return username
     }
 
-    fun ConnectWebSocket() {
-        /*TODO*/
+    private fun joinGame() {
+        val socket = socket.getSocket()
+        socket.emit("joinGame",  JSONObject().apply {
+                put("code", state.value.joinData.roomCode)
+                put("name", state.value.joinData.username)
+            }
+        )
     }
 }
 

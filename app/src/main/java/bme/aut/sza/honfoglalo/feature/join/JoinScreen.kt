@@ -105,6 +105,7 @@ fun JoinScreen(viewModel: JoinViewModel = hiltViewModel()) {
                     .clip(shape = FlatCornerShape),
                 shape = FlatCornerShape,
                 onClick = {
+                    viewModel.onEvent(JoinGameEvent.joinGame)
                     /*TODO: Make websocket connection*/
 //                    scope.launch {
 //                        viewModel.saveUsername(usernameValue)

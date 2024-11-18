@@ -30,7 +30,6 @@ abstract class UserPreferencesModule {
     ): UserPreferences
 
     companion object {
-
         // provides instance of DataStore
         @Provides
         @Singleton
