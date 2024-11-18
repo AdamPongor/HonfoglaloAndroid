@@ -22,10 +22,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun LobbyScreen(
-    lvm: LobbyViewModel = hiltViewModel()
+    viewModel: LobbyViewModel = hiltViewModel()
 ){
 
-    val state by lvm.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier

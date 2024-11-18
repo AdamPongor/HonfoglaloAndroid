@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import bme.aut.sza.honfoglalo.data.Player
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
-import bme.aut.sza.honfoglalo.ui.screens.GameScreen
+import bme.aut.sza.honfoglalo.navigation.NavGraph
 import bme.aut.sza.honfoglalo.ui.theme.HonfoglaloTheme
+import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
 
 @AndroidEntryPoint
@@ -24,31 +25,25 @@ class MainActivity : ComponentActivity() {
         SocketHandler.setSocket()
         SocketHandler.establishConnection()
 
-        val players =
-            listOf(
-                Player("Alice", 50, Color.Red),
-                Player("Bob", 50, Color.Blue),
-                Player("Dave", 50, Color.Green),
-            )
-
         setContent {
             HonfoglaloTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    val mSocket = SocketHandler.getSocket()
-                    Button(onClick = {
-                        val data = JSONObject().apply {
-                            put("code", "dbim7o")
-                            put("name", "Varesz")
-                        }
-                        mSocket.emit("joinGame", data)
-                    }) {
-                        Text("COME ON WORK!!!")
-                    }
-                   //  GameScreen(players, 10, 4)
-                }
+                NavGraph()
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.background,
+//                ) {
+//                    val mSocket = SocketHandler.getSocket()
+//                    Button(onClick = {
+//                        val data = JSONObject().apply {
+//                            put("code", "dbim7o")
+//                            put("name", "Varesz")
+//                        }
+//                        mSocket.emit("joinGame", data)
+//                    }) {
+//                        Text("COME ON WORK!!!")
+//                    }
+//                   //  GameScreen(players, 10, 4)
+//                }
             }
         }
     }
