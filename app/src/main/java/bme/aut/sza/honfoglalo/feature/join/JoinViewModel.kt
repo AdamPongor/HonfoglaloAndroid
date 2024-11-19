@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bme.aut.sza.honfoglalo.data.GameEvents
-import bme.aut.sza.honfoglalo.data.datasource.PreferencesImpl
 import bme.aut.sza.honfoglalo.data.GameStates
+import bme.aut.sza.honfoglalo.data.datasource.PreferencesImpl
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.ui.model.JoinRoomUi
 import bme.aut.sza.honfoglalo.ui.model.toUiText
@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.lang.Error
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,7 +100,7 @@ class JoinViewModel @Inject constructor(
                 put("name", state.value.joinData.username)
             }
         )
-        socket.on(GameEvents.GAME_UPDATED.Name) { args ->
+        socket.once(GameEvents.GAME_UPDATED.Name) { args ->
 
             Log.d("xdd", args[0].toString())
             val game = JSONObject(args[0].toString()).getJSONObject("game")
@@ -134,7 +133,4 @@ sealed class JoinGameEvent {
     data class ChangeUsername(val text: String): JoinGameEvent()
     data class ChangeRoomCode(val text: String): JoinGameEvent()
     data object joinGame: JoinGameEvent()
-}
-
-sealed class UiEvent {
 }
