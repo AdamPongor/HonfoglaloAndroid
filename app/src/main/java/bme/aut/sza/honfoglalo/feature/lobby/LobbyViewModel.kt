@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import bme.aut.sza.honfoglalo.data.GameEvents
+import bme.aut.sza.honfoglalo.data.entities.GameEvents
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.ui.model.PlayerUI
 import dagger.hilt.android.lifecycle.HiltViewModel

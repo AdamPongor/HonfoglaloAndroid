@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.data
+package bme.aut.sza.honfoglalo.data.entities
 
 enum class GameEvents (val Name: String){
     CREATE_GAME("createGame"),

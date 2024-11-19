@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import bme.aut.sza.honfoglalo.data.Category
+import bme.aut.sza.honfoglalo.data.entities.Category
 import bme.aut.sza.honfoglalo.ui.common.AutoResizeText
 import bme.aut.sza.honfoglalo.ui.common.FontSizeRange
 import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape

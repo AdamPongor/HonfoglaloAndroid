@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.data
+package bme.aut.sza.honfoglalo.data.entities
 
 import androidx.compose.ui.graphics.Color
 import bme.aut.sza.honfoglalo.ui.theme.Tan

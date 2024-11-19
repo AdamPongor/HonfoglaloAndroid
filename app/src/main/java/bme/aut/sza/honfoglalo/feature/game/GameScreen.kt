@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import bme.aut.sza.honfoglalo.data.County
+import bme.aut.sza.honfoglalo.data.entities.County
 import bme.aut.sza.honfoglalo.ui.model.PlayerUI
 import bme.aut.sza.honfoglalo.ui.map.PlayerInfo
 import bme.aut.sza.honfoglalo.ui.map.RoundCounter

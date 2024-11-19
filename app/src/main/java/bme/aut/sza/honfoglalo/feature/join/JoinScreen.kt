@@ -112,12 +112,6 @@ fun JoinScreen(
                             }
                         }
                     }
-                    /*TODO: Make websocket connection*/
-//                    scope.launch {
-//                        viewModel.saveUsername(usernameValue)
-//                        //TODO: DELETE LATER
-//                        snackbarHostState.showSnackbar("Join room ${roomCodeValue} with name ${usernameValue}")
-//                    }
                 }
             ) {
                 Text(text = "Join")

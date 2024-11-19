@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.data
+package bme.aut.sza.honfoglalo.data.entities
 
 data class Question(
     val question: String,

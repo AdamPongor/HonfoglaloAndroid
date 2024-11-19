@@ -1,22 +1,12 @@
 package bme.aut.sza.honfoglalo.data.util
 
-import android.content.Context
-import android.util.Log
-import androidx.compose.ui.platform.LocalContext
-import bme.aut.sza.honfoglalo.data.datasource.PreferencesImpl
-import dagger.hilt.android.qualifiers.ApplicationContext
+import bme.aut.sza.honfoglalo.data.repositories.UserPreferencesImpl
 import io.socket.client.IO
 import io.socket.client.Socket
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.stateIn
 import java.net.URISyntaxException
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SocketHandler @Inject constructor(
-    private val prefs: PreferencesImpl
+class SocketHandler(
+    private val preferences: UserPreferencesImpl
 ) {
     private lateinit var mSocket: Socket
 

@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import bme.aut.sza.honfoglalo.data.Region
+import bme.aut.sza.honfoglalo.data.entities.Region
 import bme.aut.sza.honfoglalo.ui.theme.Shade
 import kotlin.random.Random
 

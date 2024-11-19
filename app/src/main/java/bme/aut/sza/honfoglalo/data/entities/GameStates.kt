@@ -1,4 +1,4 @@
-package bme.aut.sza.honfoglalo.data
+package bme.aut.sza.honfoglalo.data.entities
 
 enum class GameStates(val Name: String) {
     LOBBY("LOBBY"),

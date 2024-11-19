@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
-import bme.aut.sza.honfoglalo.data.Category
-import bme.aut.sza.honfoglalo.data.Question
+import bme.aut.sza.honfoglalo.data.entities.Category
+import bme.aut.sza.honfoglalo.data.entities.Question
 import bme.aut.sza.honfoglalo.ui.questions.QuestionBox
 import bme.aut.sza.honfoglalo.ui.map.HungaryMap
 import bme.aut.sza.honfoglalo.ui.theme.Shade
