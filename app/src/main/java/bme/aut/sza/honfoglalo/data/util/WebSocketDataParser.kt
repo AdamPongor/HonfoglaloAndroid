@@ -1,6 +1,7 @@
 package bme.aut.sza.honfoglalo.data.util
 
 import android.graphics.Color.parseColor
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import bme.aut.sza.honfoglalo.data.entities.Category
 import bme.aut.sza.honfoglalo.data.entities.GameStates
@@ -37,6 +38,7 @@ object WebSocketDataParser {
 
     fun parseQuestion(args: Array<Any>): Question {
         val response = JSONObject(args[0].toString())
+        Log.d("Response: ", response.toString())
         val questionState = response.getJSONObject("questionState")
         val questionObject = questionState.getJSONObject("question")
         val question = questionObject.getString("question")

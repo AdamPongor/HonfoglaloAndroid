@@ -23,6 +23,7 @@ fun AnswerPickingQuestion(
     question: Question,
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
+    onAnswerSelected: (Int) -> Unit
 ) {
     Popup(
         onDismissRequest = onDismissRequest,
@@ -35,13 +36,14 @@ fun AnswerPickingQuestion(
         ) {
             QuestionBox(
                 question = question.question,
-                category = question.category,
+                //category = question.category,
             )
 
             Spacer(modifier = modifier.fillMaxHeight(0.1f))
 
             AnswerPicker(
                 answers = question.answers,
+                onClick = onAnswerSelected
             )
         }
     }
@@ -53,12 +55,12 @@ fun AnswerPickingQuestionPreview() {
     val q =
         Question(
             question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
-            category = Category.ENTERTAINMENT,
+            // category = Category.ENTERTAINMENT,
             answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
         )
 
     Box(modifier = Modifier) {
         HungaryMap()
-        AnswerPickingQuestion(question = q)
+        AnswerPickingQuestion(question = q, onAnswerSelected = {})
     }
 }

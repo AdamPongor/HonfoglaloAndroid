@@ -13,22 +13,8 @@ import bme.aut.sza.honfoglalo.ui.common.AnswerButton
 fun AnswerPicker(
     answers: List<String>,
     modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit,
 ) {
-
-    /*LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier =
-        modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
-    ) {
-        items(answers) { answer ->
-            AnswerButton(answer = answer)
-        }
-    }*/
-
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -36,9 +22,9 @@ fun AnswerPicker(
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)) {
-                AnswerButton(answer = answers[i], modifier = Modifier.weight(1f))
+                AnswerButton(answer = answers[i], modifier = Modifier.weight(1f), onClick = { onClick(i) })
                 if (i < answers.size - 1) {
-                    AnswerButton(answer = answers[i + 1], modifier = Modifier.weight(1f))
+                    AnswerButton(answer = answers[i + 1], modifier = Modifier.weight(1f), onClick = { onClick(i+1) })
                 }
             }
         }
@@ -49,5 +35,5 @@ fun AnswerPicker(
 @Composable
 fun AnswerPickerPreview() {
     val answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4", "xdd")
-    AnswerPicker(answers = answers)
+    AnswerPicker(answers = answers, onClick =  { 0 })
 }

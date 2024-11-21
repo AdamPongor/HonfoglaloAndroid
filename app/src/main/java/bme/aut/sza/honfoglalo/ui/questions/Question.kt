@@ -30,7 +30,7 @@ import bme.aut.sza.honfoglalo.ui.theme.Tan
 @Composable
 fun QuestionBox(
     question: String,
-    category: Category,
+    // category: Category,
 ) {
     Box(
         modifier =
@@ -47,14 +47,14 @@ fun QuestionBox(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                painterResource(id = category.icon),
-                category.string.toString(),
-                modifier =
-                Modifier
-                    .weight(1f)
-                    .padding(start = 5.dp),
-            )
+//            Icon(
+//                painterResource(id = category.icon),
+//                category.string.toString(),
+//                modifier =
+//                Modifier
+//                    .weight(1f)
+//                    .padding(start = 5.dp),
+//            )
             AutoResizeText(
                 text = question,
                 modifier =
@@ -77,6 +77,6 @@ fun QuestionBox(
 fun QuestionPreview() {
     QuestionBox(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut luctus erat dui, elementum venenatis mauris iaculis ac. Ut eget ultricies dolor. Aliquam id sapien in lacus ultrices varius ut at purus. Fusce tempor ligula eros, sed hendrerit risus suscipit dignissim.",
-        Category.BIOLOGY_CHEMISTRY,
+        // Category.BIOLOGY_CHEMISTRY,
     )
 }

@@ -54,7 +54,7 @@ fun GuessingQuestion(
         ) {
             QuestionBox(
                 question = question.question,
-                category = question.category,
+                // category = question.category,
             )
 
             Spacer(modifier = Modifier.fillMaxHeight(0.1f))
@@ -76,7 +76,7 @@ fun GuessingQuestionPreview() {
     val q =
         Question(
             question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
-            category = Category.ENTERTAINMENT,
+            // category = Category.ENTERTAINMENT,
             answers = listOf("69"),
         )
 

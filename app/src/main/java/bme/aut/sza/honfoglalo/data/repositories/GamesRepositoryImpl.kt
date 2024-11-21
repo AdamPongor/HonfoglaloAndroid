@@ -30,4 +30,8 @@ class GamesRepositoryImpl(
     override suspend fun gameHandling(): Flow<GameDataEntity> {
         return webSocketRemoteDataSource.gameFlowHandling()
     }
+
+    override suspend fun answerQuestion(answer: String) {
+        return webSocketRemoteDataSource.answerQuestion(answer)
+    }
 }

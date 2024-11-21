@@ -1,5 +1,6 @@
 package bme.aut.sza.honfoglalo.data.datasource
 
+import android.util.Log
 import bme.aut.sza.honfoglalo.data.entities.GameDataEntity
 import bme.aut.sza.honfoglalo.data.entities.GameEvents
 import bme.aut.sza.honfoglalo.data.entities.GameStates
@@ -63,9 +64,56 @@ class WebSocketRemoteDataSource(
         socket.on(GameEvents.GAME_UPDATED.Name) { args ->
             try {
                 val state = WebSocketDataParser.parseGameState(args)
-                if (state != null && (state == GameStates.LOBBY || state == GameStates.CHOOSING_QUESTION)) {
-                    val players = WebSocketDataParser.parsePlayers(args)
-                    trySend(Pair(state, players))
+                if (state != null) {
+                    when (state) {
+                        GameStates.LOBBY -> {
+                            val players = WebSocketDataParser.parsePlayers(args)
+                            trySend(Pair(state, players))
+                        }
+                        GameStates.CHOOSING_QUESTION -> {
+                            val players = WebSocketDataParser.parsePlayers(args)
+                            trySend(Pair(state, players))
+                            socket.off(GameEvents.GAME_UPDATED.Name)
+                        }
+                        else -> { }
+                    }
+
+                } else {
+                    close(IllegalArgumentException("Invalid game state received: $state"))
+                }
+            } catch (e: Exception) {
+                close(e)
+            }
+        }
+        awaitClose {
+            socket.off(GameEvents.GAME_UPDATED.Name)
+        }
+    }
+
+    fun gameFlowHandling(): Flow<GameDataEntity> = callbackFlow {
+        val socket = socketHandler.getSocket()
+
+        socket.emit(GameEvents.REQUEST_UPDATE.Name, JSONObject())
+
+        socket.on(GameEvents.GAME_UPDATED.Name) { args ->
+            try {
+                val state = WebSocketDataParser.parseGameState(args)
+                if (state != null) {
+                    when(state) {
+                        GameStates.CHOOSING_QUESTION -> {
+                            val players = WebSocketDataParser.parsePlayers(args)
+                            val gameData = GameDataEntity(state, players, null)
+                            trySend(gameData)
+                        }
+                        GameStates.ANSWERING_QUESTION -> {
+                            val players = WebSocketDataParser.parsePlayers(args)
+                            val question = WebSocketDataParser.parseQuestion(args)
+                            val gameData = GameDataEntity(state, players, question)
+                            trySend(gameData)
+                        }
+                        GameStates.TERRITORY_SELECTION -> TODO()
+                        else-> { }
+                    }
                 } else {
                     close(IllegalArgumentException("Invalid game state received: $state"))
                 }
@@ -79,29 +127,11 @@ class WebSocketRemoteDataSource(
         }
     }
 
-    fun gameFlowHandling(): Flow<GameDataEntity> = callbackFlow {
+    fun answerQuestion(answer: String) {
         val socket = socketHandler.getSocket()
-
-        socket.on(GameEvents.GAME_UPDATED.Name) { args ->
-            try {
-                val state = WebSocketDataParser.parseGameState(args)
-                if (state != null && (
-                        state == GameStates.CHOOSING_QUESTION ||
-                        state == GameStates.ANSWERING_QUESTION ||
-                        state == GameStates.TERRITORY_SELECTION
-                    )
-                ) {
-                    val players = WebSocketDataParser.parsePlayers(args)
-                    val question = WebSocketDataParser.parseQuestion(args)
-                    val gameData = GameDataEntity(state, players, question)
-                    trySend(gameData)
-                } else {
-                    close(IllegalArgumentException("Invalid game state received: $state"))
-                }
-            } catch (e: Exception) {
-                close(e)
-            }
-        }
+        socket.emit(GameEvents.ANSWER_QUESTION.Name, JSONObject().apply {
+            put("answer", answer)
+        })
     }
 
     fun leaveGame() {

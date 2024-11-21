@@ -20,7 +20,7 @@ import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 fun AnswerButton(
     answer: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit,
 ) {
     Button(
         onClick = { onClick() },
@@ -47,5 +47,5 @@ fun AnswerButton(
 @Preview
 @Composable
 fun AnswerPreview() {
-    AnswerButton("Answer")
+    AnswerButton("Answer", onClick = { })
 }

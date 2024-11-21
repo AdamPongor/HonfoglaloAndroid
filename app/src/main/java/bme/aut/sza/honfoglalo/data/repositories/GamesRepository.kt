@@ -12,4 +12,5 @@ interface GamesRepository {
     suspend fun lobbyWaiting(): Flow<Pair<GameStates, List<PlayerEntity>>>
     suspend fun leaveGame()
     suspend fun gameHandling(): Flow<GameDataEntity>
+    suspend fun answerQuestion(answer: String)
 }
