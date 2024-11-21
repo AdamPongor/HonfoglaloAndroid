@@ -1,10 +1,11 @@
 package bme.aut.sza.honfoglalo.data.datasource
 
-import android.util.Log
+import bme.aut.sza.honfoglalo.data.entities.GameDataEntity
 import bme.aut.sza.honfoglalo.data.entities.GameEvents
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.JoinGameEntity
 import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
+import bme.aut.sza.honfoglalo.data.entities.Question
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.data.util.WebSocketDataParser
 import kotlinx.coroutines.channels.awaitClose
@@ -75,6 +76,31 @@ class WebSocketRemoteDataSource(
 
         awaitClose {
             socket.off(GameEvents.GAME_UPDATED.Name)
+        }
+    }
+
+    fun gameFlowHandling(): Flow<GameDataEntity> = callbackFlow {
+        val socket = socketHandler.getSocket()
+
+        socket.on(GameEvents.GAME_UPDATED.Name) { args ->
+            try {
+                val state = WebSocketDataParser.parseGameState(args)
+                if (state != null && (
+                        state == GameStates.CHOOSING_QUESTION ||
+                        state == GameStates.ANSWERING_QUESTION ||
+                        state == GameStates.TERRITORY_SELECTION
+                    )
+                ) {
+                    val players = WebSocketDataParser.parsePlayers(args)
+                    val question = WebSocketDataParser.parseQuestion(args)
+                    val gameData = GameDataEntity(state, players, question)
+                    trySend(gameData)
+                } else {
+                    close(IllegalArgumentException("Invalid game state received: $state"))
+                }
+            } catch (e: Exception) {
+                close(e)
+            }
         }
     }
 

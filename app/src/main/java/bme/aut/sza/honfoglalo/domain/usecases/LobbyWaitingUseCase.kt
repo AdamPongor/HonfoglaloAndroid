@@ -20,4 +20,3 @@ class LobbyWaitingUseCase(private val repository: GamesRepository) {
         }
     }
 }
-

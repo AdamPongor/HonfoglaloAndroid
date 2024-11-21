@@ -4,5 +4,6 @@ class QuizQuestUseCases (
     val loadUsernameUseCase: LoadUsernameUseCase,
     val joinGame: JoinGameUseCase,
     val lobbyWaitingUseCase: LobbyWaitingUseCase,
-    val leaveGameUseCase: LeaveGameUseCase
+    val leaveGameUseCase: LeaveGameUseCase,
+    val handleGameUseCase: HandleGameUseCase,
 )

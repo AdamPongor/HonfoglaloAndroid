@@ -2,6 +2,7 @@ package bme.aut.sza.honfoglalo.data.repositories
 
 import bme.aut.sza.honfoglalo.data.datasource.UserPreferencesDataSource
 import bme.aut.sza.honfoglalo.data.datasource.WebSocketRemoteDataSource
+import bme.aut.sza.honfoglalo.data.entities.GameDataEntity
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.JoinGameEntity
 import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
@@ -24,5 +25,9 @@ class GamesRepositoryImpl(
 
     override suspend fun leaveGame() {
         return webSocketRemoteDataSource.leaveGame()
+    }
+
+    override suspend fun gameHandling(): Flow<GameDataEntity> {
+        return webSocketRemoteDataSource.gameFlowHandling()
     }
 }

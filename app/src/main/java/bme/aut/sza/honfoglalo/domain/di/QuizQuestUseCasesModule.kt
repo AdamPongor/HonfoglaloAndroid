@@ -1,6 +1,7 @@
 package bme.aut.sza.honfoglalo.domain.di
 
 import bme.aut.sza.honfoglalo.data.repositories.GamesRepository
+import bme.aut.sza.honfoglalo.domain.usecases.HandleGameUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.JoinGameUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.LeaveGameUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.LoadUsernameUseCase
@@ -39,6 +40,11 @@ object QuizQuestUseCasesModule {
         gamesRepository: GamesRepository
     ): LobbyWaitingUseCase = LobbyWaitingUseCase(gamesRepository)
 
+    @Singleton
+    @Provides
+    fun provideHandleGameUseCase(
+        gamesRepository: GamesRepository
+    ): HandleGameUseCase = HandleGameUseCase(gamesRepository)
 
     @Provides
     @Singleton
@@ -47,11 +53,13 @@ object QuizQuestUseCasesModule {
         joinGameUseCase: JoinGameUseCase,
         lobbyWaitingUseCase: LobbyWaitingUseCase,
         leaveGameUseCase: LeaveGameUseCase,
+        handleGameUseCase: HandleGameUseCase,
     ): QuizQuestUseCases
     = QuizQuestUseCases(
         loadUsernameUseCase,
         joinGameUseCase,
         lobbyWaitingUseCase,
-        leaveGameUseCase
+        leaveGameUseCase,
+        handleGameUseCase
     )
 }
