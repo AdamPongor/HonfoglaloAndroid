@@ -3,6 +3,8 @@ package bme.aut.sza.honfoglalo.domain.di
 import bme.aut.sza.honfoglalo.data.repositories.GamesRepository
 import bme.aut.sza.honfoglalo.domain.usecases.JoinGameUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.LeaveGameUseCase
+import bme.aut.sza.honfoglalo.domain.usecases.LoadUsernameUseCase
+import bme.aut.sza.honfoglalo.domain.usecases.LobbyWaitingUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.QuizQuestUseCases
 import dagger.Module
 import dagger.Provides
@@ -21,12 +23,35 @@ object QuizQuestUseCasesModule {
 
     @Provides
     @Singleton
-    fun provideLeaveGameUseCase(): LeaveGameUseCase = LeaveGameUseCase()
+    fun provideLeaveGameUseCase(
+        gamesRepository: GamesRepository
+    ): LeaveGameUseCase = LeaveGameUseCase(gamesRepository)
+
+    @Provides
+    @Singleton
+    fun provideLoadUsernameUseCase(
+        gamesRepository: GamesRepository
+    ): LoadUsernameUseCase = LoadUsernameUseCase(gamesRepository)
+
+    @Singleton
+    @Provides
+    fun provideLobbyWaitingUseCase(
+        gamesRepository: GamesRepository
+    ): LobbyWaitingUseCase = LobbyWaitingUseCase(gamesRepository)
+
 
     @Provides
     @Singleton
     fun provideQuizQuestUseCases(
+        loadUsernameUseCase: LoadUsernameUseCase,
         joinGameUseCase: JoinGameUseCase,
-        leaveGameUseCase: LeaveGameUseCase
-    ): QuizQuestUseCases = QuizQuestUseCases(joinGameUseCase, leaveGameUseCase)
+        lobbyWaitingUseCase: LobbyWaitingUseCase,
+        leaveGameUseCase: LeaveGameUseCase,
+    ): QuizQuestUseCases
+    = QuizQuestUseCases(
+        loadUsernameUseCase,
+        joinGameUseCase,
+        lobbyWaitingUseCase,
+        leaveGameUseCase
+    )
 }

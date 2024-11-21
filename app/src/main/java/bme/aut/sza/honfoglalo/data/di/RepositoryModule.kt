@@ -17,8 +17,10 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideGamesRepository(webSocketRemoteDataSource: WebSocketRemoteDataSource): GamesRepository
-        = GamesRepositoryImpl(webSocketRemoteDataSource)
+    fun provideGamesRepository(
+        webSocketRemoteDataSource: WebSocketRemoteDataSource,
+        userPreferencesDataSource: UserPreferencesDataSource
+    ): GamesRepository = GamesRepositoryImpl(webSocketRemoteDataSource, userPreferencesDataSource)
 
     @Singleton
     @Provides

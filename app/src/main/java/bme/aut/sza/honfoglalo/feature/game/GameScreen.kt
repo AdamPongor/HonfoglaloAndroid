@@ -9,34 +9,43 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import bme.aut.sza.honfoglalo.data.entities.Category
 import bme.aut.sza.honfoglalo.data.entities.County
+import bme.aut.sza.honfoglalo.data.entities.Question
+import bme.aut.sza.honfoglalo.feature.lobby.LeaveGameEvent
 import bme.aut.sza.honfoglalo.ui.model.PlayerUI
 import bme.aut.sza.honfoglalo.ui.map.PlayerInfo
 import bme.aut.sza.honfoglalo.ui.map.RoundCounter
 import bme.aut.sza.honfoglalo.ui.map.GameMap
+import bme.aut.sza.honfoglalo.ui.questions.answerpicking.AnswerPickingQuestion
+import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
+import bme.aut.sza.honfoglalo.ui.util.UiEvent
 import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
+import kotlinx.coroutines.launch
 
 @Composable
-fun GameScreen(
-    players: List<PlayerUI>,
-    totalRounds: Int,
-    currentRound: Int,
-) {
+fun GameScreen() {
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
     val regions = remember { mutableStateOf<List<County>>(emptyList()) }
     val context = LocalContext.current
+
+    val questinPopUpState = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         regions.value = loadGeoJson(context)
@@ -57,6 +66,28 @@ fun GameScreen(
             scale = 0.65F,
         )
 
+        FilledTonalButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(75.dp)
+                .padding(10.dp)
+                .clip(shape = FlatCornerShape),
+            shape = FlatCornerShape,
+            onClick = {
+                questinPopUpState.value = true
+            }
+        ) {
+            Text(text = "Leave Lobby")
+        }
+
+        when (questinPopUpState.value) {
+            true -> {
+                AnswerPickingQuestion(Question("Mi a fasz van veletek?", Category.ART, listOf("Semmi", "Semmi geci")))
+            }
+            false -> { }
+        }
+
+
         if (isPortrait) {
             Column(
                 modifier =
@@ -72,9 +103,9 @@ fun GameScreen(
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
-                    players.forEach { player ->
-                        PlayerInfo(player = player)
-                    }
+//                    players.forEach { player ->
+//                        PlayerInfo(player = player)
+//                    }
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -97,12 +128,12 @@ fun GameScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    players.forEach { player ->
-                        PlayerInfo(player = player)
-                    }
+//                    players.forEach { player ->
+//                        PlayerInfo(player = player)
+//                    }
                 }
 
-                RoundCounter(totalRounds = totalRounds, currentRound = currentRound)
+//                RoundCounter(totalRounds = totalRounds, currentRound = currentRound)
             }
         }
     }

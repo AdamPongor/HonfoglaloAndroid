@@ -40,10 +40,8 @@ fun JoinScreen(
     viewModel: JoinViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val uiEventFlow = viewModel.uiEvent
     val scope = rememberCoroutineScope()
 
-    //TODO: DELETE LATER
     val hostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
@@ -100,15 +98,15 @@ fun JoinScreen(
                 onClick = {
                     viewModel.onEvent(JoinGameEvent.joinGame)
                     scope.launch {
-                        uiEventFlow.collect { event ->
+                        viewModel.uiEvent.collect { event ->
                             when (event) {
                                 is UiEvent.Failure -> {
                                     hostState.showSnackbar(event.message.asString(context))
                                 }
-
                                 UiEvent.Success -> {
                                     onJoinGame()
                                 }
+                                else -> {}
                             }
                         }
                     }

@@ -3,13 +3,11 @@ package bme.aut.sza.honfoglalo.domain.usecases
 import bme.aut.sza.honfoglalo.data.repositories.GamesRepository
 import java.io.IOException
 
-class LeaveGameUseCase(
-    private val repository: GamesRepository
-) {
-    suspend operator fun invoke(): Result<Nothing?> {
+class LoadUsernameUseCase(private val repository: GamesRepository) {
+    suspend operator fun invoke(): Result<String> {
         return try {
-            repository.leaveGame()
-            Result.success(null)
+            val username = repository.loadUsername()
+            Result.success(username)
         } catch (e: IOException) {
             Result.failure(e)
         }

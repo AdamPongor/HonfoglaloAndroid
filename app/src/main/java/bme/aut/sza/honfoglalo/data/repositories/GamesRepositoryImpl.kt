@@ -1,17 +1,28 @@
 package bme.aut.sza.honfoglalo.data.repositories
 
+import bme.aut.sza.honfoglalo.data.datasource.UserPreferencesDataSource
 import bme.aut.sza.honfoglalo.data.datasource.WebSocketRemoteDataSource
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.JoinGameEntity
+import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
+import kotlinx.coroutines.flow.Flow
 
 class GamesRepositoryImpl(
-    private val dataSource: WebSocketRemoteDataSource
+    private val webSocketRemoteDataSource: WebSocketRemoteDataSource,
+    private val userPreferencesDataSource: UserPreferencesDataSource
 ): GamesRepository {
-    override suspend fun joinGame(joinGameEntity: JoinGameEntity): GameStates {
-        return dataSource.joinGame(joinData = joinGameEntity)
+    override suspend fun loadUsername(): String {
+        return userPreferencesDataSource.getUsername()
+    }
+    override suspend fun joinGame(joinGameEntity: JoinGameEntity) {
+        return webSocketRemoteDataSource.joinGame(joinData = joinGameEntity)
+    }
+
+    override suspend fun lobbyWaiting(): Flow<Pair<GameStates, List<PlayerEntity>>> {
+        return webSocketRemoteDataSource.lobbyWaiting()
     }
 
     override suspend fun leaveGame() {
-        // TODO("Not yet implemented")
+        return webSocketRemoteDataSource.leaveGame()
     }
 }

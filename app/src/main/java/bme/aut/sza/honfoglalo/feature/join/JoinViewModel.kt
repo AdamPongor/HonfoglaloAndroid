@@ -27,13 +27,14 @@ class JoinViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-//        viewModelScope.launch {
-//            _state.update {
-//                it.copy(
-//                    joinData = it.joinData.copy(username = getUsername())
-//                )
-//            }
-//        }
+        viewModelScope.launch {
+            val username = quizQuestUseCases.loadUsernameUseCase().getOrDefault("")
+            _state.update {
+                it.copy(
+                    joinData = it.joinData.copy(username = username)
+                )
+            }
+        }
     }
 
     fun onEvent (event: JoinGameEvent) {
