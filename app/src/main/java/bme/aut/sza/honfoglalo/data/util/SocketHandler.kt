@@ -13,6 +13,7 @@ class SocketHandler(
     fun setSocket(ip: String) {
         try {
             mSocket = IO.socket("https://quizquest-backend.up.railway.app/")
+            //mSocket = IO.socket("http://10.0.2.2:3000")
         } catch (e: URISyntaxException) {
             e.printStackTrace()
         }

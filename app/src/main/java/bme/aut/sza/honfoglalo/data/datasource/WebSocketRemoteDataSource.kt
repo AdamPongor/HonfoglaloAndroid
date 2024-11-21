@@ -57,6 +57,8 @@ class WebSocketRemoteDataSource(
     fun lobbyWaiting(): Flow<Pair<GameStates, List<PlayerEntity>>> = callbackFlow {
         val socket = socketHandler.getSocket()
 
+        socket.emit(GameEvents.REQUEST_UPDATE.Name, JSONObject())
+
         socket.on(GameEvents.GAME_UPDATED.Name) { args ->
             try {
                 val state = WebSocketDataParser.parseGameState(args)

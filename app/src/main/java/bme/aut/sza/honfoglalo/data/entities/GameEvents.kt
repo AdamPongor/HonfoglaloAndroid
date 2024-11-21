@@ -9,5 +9,6 @@ enum class GameEvents (val Name: String){
     ANSWER_QUESTION("answerQuestion"),
     START_TERRITORY_SELECTION("startTerritorySelection"),
     SELECT_TERRITORY("selectTerritory"),
+    REQUEST_UPDATE("requestUpdate"),
     GAME_UPDATED("gameUpdated")
 }
