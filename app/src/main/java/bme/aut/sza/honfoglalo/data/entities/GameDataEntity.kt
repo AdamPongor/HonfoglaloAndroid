@@ -4,4 +4,5 @@ data class GameDataEntity(
     val state: GameStates,
     val playerEntity: List<PlayerEntity>,
     val question: Question?,
+    val myTurn: Boolean?
 )

@@ -109,16 +109,22 @@ class WebSocketRemoteDataSource(
                     val players = WebSocketDataParser.parsePlayers(args)
                     when(state) {
                         GameStates.CHOOSING_QUESTION -> {
-                            val gameData = GameDataEntity(state, players, null)
+                            val gameData = GameDataEntity(state, players, null, null)
                             trySend(gameData)
                         }
                         GameStates.ANSWERING_QUESTION -> {
                             val question = WebSocketDataParser.parseQuestion(args)
-                            val gameData = GameDataEntity(state, players, question)
+                            val gameData = GameDataEntity(state, players, question, null)
                             trySend(gameData)
                         }
                         GameStates.TERRITORY_SELECTION -> {
-                            // val territorySelection = WebSocketDataParser.parseTerritorySelection(args)
+                            val territorySelection = WebSocketDataParser.parseTerritorySelection(args)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                val myUser = userPreferencesDataSource.getUserId()
+                                val isMyTurn = territorySelection.territorySelection.first().id == myUser
+                                val gameData = GameDataEntity(state, players, null, isMyTurn)
+                                trySend(gameData)
+                            }
                         }
                         else-> { }
                     }

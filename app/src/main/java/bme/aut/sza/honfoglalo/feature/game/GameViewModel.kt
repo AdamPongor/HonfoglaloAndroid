@@ -41,7 +41,6 @@ class GameViewModel @Inject constructor(
                                     waitingTypes = GameWaitingTypes.WAITING_FOR_HOST,
                                     gameStates = GameStates.CHOOSING_QUESTION,
                                     hasAnswered = false,
-                                    hasChosenTerritory = false,
                                 )
                             }
                         }
@@ -58,7 +57,7 @@ class GameViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     gameStates = GameStates.TERRITORY_SELECTION,
-                                    waitingTypes = if(state.value.hasAnswered) GameWaitingTypes.WAITING_FOR_OTHERS else GameWaitingTypes.NONE
+                                    waitingTypes = if(gameState.myTurn!!) GameWaitingTypes.NONE else GameWaitingTypes.WAITING_FOR_OTHERS
                                 )
                             }
                         }
@@ -87,7 +86,6 @@ class GameViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         gameStates = GameStates.CHOOSING_QUESTION,
-                        hasChosenTerritory = true
                     )
                 }
             }
@@ -115,7 +113,6 @@ data class GameScreenState(
     val currentRound: Int = 0,
     val totalRounds: Int = 10,
     val hasAnswered: Boolean = false,
-    val hasChosenTerritory: Boolean = false
 )
 
 sealed class GameEvents {

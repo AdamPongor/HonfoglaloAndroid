@@ -8,10 +8,12 @@ data class GameData(
     val state: GameStates,
     val playerList: List<Player>,
     val question: Question?,
+    val myTurn: Boolean?,
 )
 
 fun GameDataEntity.asGameData(): GameData = GameData(
     state = state,
     playerList = playerEntity.map { it.asPlayer() },
-    question = question
+    question = question,
+    myTurn = myTurn
 )

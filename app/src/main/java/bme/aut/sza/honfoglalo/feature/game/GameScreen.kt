@@ -71,7 +71,9 @@ fun GameScreen(
         GameMap(
             counties = regions.value,
             onCountyClick = { territory ->
-                Log.d("Territory: ", territory)
+                scope.launch {
+                    viewModel.onEvent(GameEvents.selectTerritory, 0, territory)
+                }
             },
             scale = 0.65F,
         )
@@ -87,7 +89,9 @@ fun GameScreen(
                 GameWaitingTypes.WAITING_FOR_HOST -> {
                     WaitHourglass("Waiting for host!")
                 }
-                GameWaitingTypes.NONE -> { }
+                GameWaitingTypes.NONE -> {
+                    Text(text = "Please choose a territory!")
+                }
             }
         }
 
