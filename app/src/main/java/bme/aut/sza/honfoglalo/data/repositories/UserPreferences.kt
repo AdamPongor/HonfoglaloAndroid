@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserPreferences {
     val USERNAME: Preferences.Key<String>
+    val userId: Preferences.Key<String>
     val serverIP: Preferences.Key<String>
 
     suspend fun <T> setPreference(

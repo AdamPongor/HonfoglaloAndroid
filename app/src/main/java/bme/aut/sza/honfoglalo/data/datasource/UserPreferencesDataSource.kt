@@ -17,6 +17,15 @@ class UserPreferencesDataSource(
             .stateIn(CoroutineScope(Dispatchers.IO)).value ?: ""
     }
 
+    suspend fun saveUserId(userId: String) {
+        userPreferences.setPreference(name = userId, key = userPreferences.userId)
+    }
+
+    suspend fun getUserId(): String {
+        return userPreferences.getPreference(key = userPreferences.userId)
+            .stateIn(CoroutineScope(Dispatchers.IO)).value ?: ""
+    }
+
     suspend fun saveIPAddress(ipAddress: String) {
         userPreferences.setPreference(name = ipAddress, key = userPreferences.serverIP)
     }

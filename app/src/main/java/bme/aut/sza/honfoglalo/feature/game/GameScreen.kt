@@ -1,6 +1,7 @@
 package bme.aut.sza.honfoglalo.feature.game
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -69,11 +70,8 @@ fun GameScreen(
     ) {
         GameMap(
             counties = regions.value,
-            onCountyClick = { region ->
-                regions.value =
-                    regions.value.map {
-                        if (it == region) it.copy(color = Color.Red) else it
-                    }
+            onCountyClick = { territory ->
+                Log.d("Territory: ", territory)
             },
             scale = 0.65F,
         )
@@ -130,7 +128,7 @@ fun GameScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                RoundCounter(10, 4)
+                RoundCounter(state.totalRounds, state.currentRound)
             }
         } else {
             Row(
@@ -152,7 +150,7 @@ fun GameScreen(
                         PlayerInfo(player = player)
                     }
                 }
-                RoundCounter(totalRounds = state.totalRound, currentRound = state.currentRound)
+                RoundCounter(totalRounds = state.totalRounds, currentRound = state.currentRound)
             }
         }
     }

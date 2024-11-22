@@ -9,9 +9,12 @@ import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
 import bme.aut.sza.honfoglalo.data.entities.Question
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.data.util.WebSocketDataParser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -40,6 +43,10 @@ class WebSocketRemoteDataSource(
                     try {
                         val state = WebSocketDataParser.parseGameState(args)
                         if (state != null && state == GameStates.LOBBY) {
+                            val myPlayer = WebSocketDataParser.myPlayer(args)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                userPreferencesDataSource.saveUserId(myPlayer)
+                            }
                             continuation.resume(Unit)
                         } else {
                             continuation.resumeWithException(
@@ -99,19 +106,20 @@ class WebSocketRemoteDataSource(
             try {
                 val state = WebSocketDataParser.parseGameState(args)
                 if (state != null) {
+                    val players = WebSocketDataParser.parsePlayers(args)
                     when(state) {
                         GameStates.CHOOSING_QUESTION -> {
-                            val players = WebSocketDataParser.parsePlayers(args)
                             val gameData = GameDataEntity(state, players, null)
                             trySend(gameData)
                         }
                         GameStates.ANSWERING_QUESTION -> {
-                            val players = WebSocketDataParser.parsePlayers(args)
                             val question = WebSocketDataParser.parseQuestion(args)
                             val gameData = GameDataEntity(state, players, question)
                             trySend(gameData)
                         }
-                        GameStates.TERRITORY_SELECTION -> TODO()
+                        GameStates.TERRITORY_SELECTION -> {
+                            // val territorySelection = WebSocketDataParser.parseTerritorySelection(args)
+                        }
                         else-> { }
                     }
                 } else {
