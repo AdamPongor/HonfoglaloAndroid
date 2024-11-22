@@ -71,6 +71,7 @@ fun GameScreen(
         GameMap(
             counties = regions.value,
             onCountyClick = { territory ->
+                Log.d("territory: ", territory)
                 scope.launch {
                     viewModel.onEvent(GameEvents.selectTerritory, 0, territory)
                 }

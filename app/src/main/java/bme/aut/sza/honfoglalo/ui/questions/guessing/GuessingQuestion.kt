@@ -20,7 +20,6 @@ import androidx.compose.ui.window.Popup
 import bme.aut.sza.honfoglalo.data.entities.Category
 import bme.aut.sza.honfoglalo.data.entities.Question
 import bme.aut.sza.honfoglalo.ui.questions.QuestionBox
-import bme.aut.sza.honfoglalo.ui.map.HungaryMap
 import bme.aut.sza.honfoglalo.ui.theme.Shade
 
 @Composable
@@ -81,7 +80,6 @@ fun GuessingQuestionPreview() {
         )
 
     Box(modifier = Modifier) {
-        HungaryMap()
         GuessingQuestion(q, guess)
     }
 }

@@ -7,13 +7,13 @@ enum class Territory(val FullName: String,val idName: String, val Resource: Int)
     BARANYA("Baranya","BARANYA", R.drawable.baranya),
     BEKES("Békés", "BEKES",R.drawable.bekes),
     BORSOD("Borsod-Abaúj-Zemplén", "BAZ", R.drawable.borsod),
-    CSONGRAD("Csongrád-Csanád", "CSONGRAD", R.drawable.csongrad),
+    CSONGRAD("Csongrád", "CSONGRAD", R.drawable.csongrad),
     FEJER("Fejér","FEJER", R.drawable.fejer),
     GYOR("Győr-Moson-Sopron","GYMS", R.drawable.gyor),
     HAJDU("Hajdú-Bihar","HB", R.drawable.hajdu),
     HEVES("Heves","HEVES", R.drawable.heves),
     JASZ("Jász-Nagykun-Szolnok","JNSZ", R.drawable.jasz),
-    KOMAROM("Komárom","KE", R.drawable.komarom),
+    KOMAROM("Komárom-Esztergom","KE", R.drawable.komarom),
     NOGRAD("Nógrád","NOGRAD", R.drawable.nograd),
     PEST("Pest","PEST", R.drawable.pest),
     SOMOGY("Somogy","SOMOGY", R.drawable.somogy),
@@ -23,14 +23,14 @@ enum class Territory(val FullName: String,val idName: String, val Resource: Int)
     VESZPREM("Veszprém", "VESZPREM", R.drawable.veszprem),
     ZALA("Zala", "ZALA", R.drawable.zala);
 
-    fun getID(name: String) : String{
-        for (t in Territory.entries){
-            if(t.FullName == name){
-                return t.idName
+    companion object {
+        fun getID(name: String) : String{
+            for (t in Territory.entries){
+                if(t.FullName == name){
+                    return t.idName
+                }
             }
+            return ""
         }
-        return ""
     }
-
-
 }

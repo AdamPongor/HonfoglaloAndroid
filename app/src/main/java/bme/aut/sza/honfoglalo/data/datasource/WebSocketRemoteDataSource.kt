@@ -7,6 +7,7 @@ import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.JoinGameEntity
 import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
 import bme.aut.sza.honfoglalo.data.entities.Question
+import bme.aut.sza.honfoglalo.data.entities.Territory
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.data.util.WebSocketDataParser
 import kotlinx.coroutines.CoroutineScope
@@ -119,6 +120,7 @@ class WebSocketRemoteDataSource(
                         }
                         GameStates.TERRITORY_SELECTION -> {
                             val territorySelection = WebSocketDataParser.parseTerritorySelection(args)
+                            Log.d("Territory select: ", territorySelection.toString())
                             CoroutineScope(Dispatchers.IO).launch {
                                 val myUser = userPreferencesDataSource.getUserId()
                                 val isMyTurn = territorySelection.territorySelection.first().id == myUser
@@ -150,8 +152,10 @@ class WebSocketRemoteDataSource(
 
     fun selectTerritory(territoryName: String) {
         val socket = socketHandler.getSocket()
+        Log.d("Territory: ", territoryName)
+        Log.d("Territory: ", Territory.getID(territoryName))
         socket.emit(GameEvents.SELECT_TERRITORY.Name, JSONObject().apply {
-            put("territory", territoryName)
+            put("territory", Territory.getID(territoryName))
         })
     }
 
