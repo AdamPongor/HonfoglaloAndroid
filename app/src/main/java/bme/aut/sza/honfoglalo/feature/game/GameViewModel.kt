@@ -113,7 +113,7 @@ data class GameScreenState(
     val players: List<PlayerUI> = emptyList(),
     val question: Question? = null,
     val currentRound: Int = 0,
-    val totalRound: Int = 10,
+    val totalRounds: Int = 10,
     val hasAnswered: Boolean = false,
     val hasChosenTerritory: Boolean = false
 )

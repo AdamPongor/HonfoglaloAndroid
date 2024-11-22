@@ -11,6 +11,7 @@ class UserPreferencesImpl(
     private val userDataStorePreferences: DataStore<Preferences>
 ): UserPreferences {
     override val USERNAME = stringPreferencesKey(name = "USERNAME")
+    override val userId = stringPreferencesKey(name = "USERID")
     override val serverIP = stringPreferencesKey(name = "SERVERIP")
 
     override suspend fun <T> setPreference(

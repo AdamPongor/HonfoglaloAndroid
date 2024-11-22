@@ -3,16 +3,17 @@ package bme.aut.sza.honfoglalo.data.util
 import android.graphics.Color.parseColor
 import android.util.Log
 import androidx.compose.ui.graphics.Color
-import bme.aut.sza.honfoglalo.data.entities.Category
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
 import bme.aut.sza.honfoglalo.data.entities.Question
-import org.json.JSONArray
+import bme.aut.sza.honfoglalo.data.entities.TerritorySelection
+import bme.aut.sza.honfoglalo.data.entities.TerritorySelections
 import org.json.JSONObject
 
 object WebSocketDataParser {
     fun parseGameState(args: Array<Any>): GameStates? {
         val response = JSONObject(args[0].toString())
+        Log.d("Response: ", response.toString())
         val game = response.getJSONObject("game")
         val gameState = game.getString("state")
         val state = GameStates.entries.find { it.Name == gameState }
@@ -36,9 +37,15 @@ object WebSocketDataParser {
         return playerList
     }
 
+    fun myPlayer(args: Array<Any>): String {
+        val response = JSONObject(args[0].toString())
+        val myPlayer = response.getJSONObject("player")
+        val id = myPlayer.getString("id")
+        return id
+    }
+
     fun parseQuestion(args: Array<Any>): Question {
         val response = JSONObject(args[0].toString())
-        Log.d("Response: ", response.toString())
         val questionState = response.getJSONObject("questionState")
         val questionObject = questionState.getJSONObject("question")
         val question = questionObject.getString("question")
@@ -49,4 +56,18 @@ object WebSocketDataParser {
         )
     }
 
+    fun parseTerritorySelection(args: Array<Any>): TerritorySelections {
+        val response = JSONObject(args[0].toString())
+        val territorySelection = response.getJSONArray("territorySelection")
+
+        val selections = mutableListOf<TerritorySelection>()
+        for (i in 0 until territorySelection.length()) {
+            val item = territorySelection.getJSONObject(i)
+            val id = item.getString("id")
+            val selectionsCount = item.getInt("selections")
+            selections.add(TerritorySelection(id, selectionsCount))
+        }
+
+        return TerritorySelections(selections)
+    }
 }

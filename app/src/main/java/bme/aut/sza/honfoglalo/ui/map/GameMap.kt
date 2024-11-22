@@ -1,8 +1,10 @@
 package bme.aut.sza.honfoglalo.ui.map
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,7 +24,7 @@ import bme.aut.sza.honfoglalo.ui.util.isPointInsideCounty
 @Composable
 fun GameMap(
     counties: List<County>,
-    onCountyClick: (County) -> Unit,
+    onCountyClick: (String) -> Unit,
     scale: Float,
 ) {
     var clickedRegion: County? by remember { mutableStateOf(null) }
@@ -43,7 +45,6 @@ fun GameMap(
         // Iterate through counties and draw them on the canvas
         counties.forEach { county ->
             val path = createCountyPath(county, canvasWidth, canvasHeight, scale)
-
             // Fill the county with color
             drawPath(
                 path = path,
@@ -64,6 +65,6 @@ fun GameMap(
     }
 
     LaunchedEffect(clickedRegion) {
-        clickedRegion?.let { onCountyClick(it) }
+        clickedRegion?.let { onCountyClick(it.name) }
     }
 }
