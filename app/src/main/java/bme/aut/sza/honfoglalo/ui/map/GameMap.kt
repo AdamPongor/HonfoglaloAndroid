@@ -1,10 +1,9 @@
 package bme.aut.sza.honfoglalo.ui.map
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,7 +31,8 @@ fun GameMap(
 
     Canvas(
         Modifier
-            .fillMaxSize()
+            .fillMaxHeight()
+            .aspectRatio(1.2f)
             .pointerInput(Unit) {
                 detectTapGestures { offset ->
                     clickPosition.value = offset
