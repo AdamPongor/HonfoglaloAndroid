@@ -1,5 +1,6 @@
 package bme.aut.sza.honfoglalo.feature.game
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bme.aut.sza.honfoglalo.data.entities.GameStates
@@ -48,7 +49,8 @@ class GameViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     question = gameState.question,
-                                    gameStates = GameStates.ANSWERING_QUESTION
+                                    gameStates = GameStates.ANSWERING_QUESTION,
+                                    waitingTypes = if(state.value.hasAnswered) GameWaitingTypes.WAITING_FOR_OTHERS else GameWaitingTypes.NONE
                                 )
                             }
                         }
@@ -56,7 +58,7 @@ class GameViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     gameStates = GameStates.TERRITORY_SELECTION,
-                                    waitingTypes = GameWaitingTypes.WAITING_FOR_OTHERS,
+                                    waitingTypes = if(state.value.hasAnswered) GameWaitingTypes.WAITING_FOR_OTHERS else GameWaitingTypes.NONE
                                 )
                             }
                         }
@@ -75,7 +77,6 @@ class GameViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         gameStates = GameStates.TERRITORY_SELECTION,
-                        waitingTypes = GameWaitingTypes.WAITING_FOR_OTHERS,
                         hasAnswered = true
                     )
                 }
@@ -86,7 +87,6 @@ class GameViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         gameStates = GameStates.CHOOSING_QUESTION,
-                        waitingTypes = GameWaitingTypes.WAITING_FOR_OTHERS,
                         hasChosenTerritory = true
                     )
                 }

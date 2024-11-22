@@ -78,15 +78,21 @@ fun GameScreen(
             scale = 0.65F,
         )
 
-        when (state.waitingTypes) {
-            GameWaitingTypes.WAITING_FOR_OTHERS -> {
-                WaitHourglass("Várakozás a többiekre!")
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.End){
+            when (state.waitingTypes) {
+                GameWaitingTypes.WAITING_FOR_OTHERS -> {
+                    WaitHourglass("Waiting for others!")
+                }
+                GameWaitingTypes.WAITING_FOR_HOST -> {
+                    WaitHourglass("Waiting for host!")
+                }
+                GameWaitingTypes.NONE -> { }
             }
-            GameWaitingTypes.WAITING_FOR_HOST -> {
-                WaitHourglass("Várakozás a játékvezetőre!")
-            }
-            GameWaitingTypes.NONE -> { }
         }
+
 
         when (state.gameStates == GameStates.ANSWERING_QUESTION && !state.hasAnswered) {
             true -> {
@@ -101,7 +107,6 @@ fun GameScreen(
             }
             false -> { }
         }
-
 
         if (isPortrait) {
             Column(
