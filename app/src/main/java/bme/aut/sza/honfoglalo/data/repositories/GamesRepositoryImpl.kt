@@ -34,4 +34,8 @@ class GamesRepositoryImpl(
     override suspend fun answerQuestion(answer: String) {
         return webSocketRemoteDataSource.answerQuestion(answer)
     }
+
+    override suspend fun selectTerritory(territory: String) {
+        return webSocketRemoteDataSource.selectTerritory(territory)
+    }
 }

@@ -8,6 +8,7 @@ import bme.aut.sza.honfoglalo.domain.usecases.LeaveGameUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.LoadUsernameUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.LobbyWaitingUseCase
 import bme.aut.sza.honfoglalo.domain.usecases.QuizQuestUseCases
+import bme.aut.sza.honfoglalo.domain.usecases.SelectTerritoryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,6 +54,12 @@ object QuizQuestUseCasesModule {
         gamesRepository: GamesRepository
     ): AnswerQuestionUseCase = AnswerQuestionUseCase(gamesRepository)
 
+    @Singleton
+    @Provides
+    fun provideSelectTerritoryUseCase(
+        gamesRepository: GamesRepository
+    ): SelectTerritoryUseCase = SelectTerritoryUseCase(gamesRepository)
+
     @Provides
     @Singleton
     fun provideQuizQuestUseCases(
@@ -61,7 +68,8 @@ object QuizQuestUseCasesModule {
         lobbyWaitingUseCase: LobbyWaitingUseCase,
         leaveGameUseCase: LeaveGameUseCase,
         handleGameUseCase: HandleGameUseCase,
-        answerQuestionUseCase: AnswerQuestionUseCase
+        answerQuestionUseCase: AnswerQuestionUseCase,
+        selectTerritoryUseCase: SelectTerritoryUseCase
     ): QuizQuestUseCases
     = QuizQuestUseCases(
         loadUsernameUseCase,
@@ -69,6 +77,7 @@ object QuizQuestUseCasesModule {
         lobbyWaitingUseCase,
         leaveGameUseCase,
         handleGameUseCase,
-        answerQuestionUseCase
+        answerQuestionUseCase,
+        selectTerritoryUseCase
     )
 }

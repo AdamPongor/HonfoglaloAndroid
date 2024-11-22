@@ -13,4 +13,5 @@ interface GamesRepository {
     suspend fun leaveGame()
     suspend fun gameHandling(): Flow<GameDataEntity>
     suspend fun answerQuestion(answer: String)
+    suspend fun selectTerritory(territory: String)
 }

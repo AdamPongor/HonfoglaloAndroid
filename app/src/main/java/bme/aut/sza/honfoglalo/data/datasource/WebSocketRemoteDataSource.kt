@@ -134,6 +134,13 @@ class WebSocketRemoteDataSource(
         })
     }
 
+    fun selectTerritory(territoryName: String) {
+        val socket = socketHandler.getSocket()
+        socket.emit(GameEvents.SELECT_TERRITORY.Name, JSONObject().apply {
+            put("territory", territoryName)
+        })
+    }
+
     fun leaveGame() {
         try {
             val socket = socketHandler.getSocket()

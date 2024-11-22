@@ -1,6 +1,5 @@
 package bme.aut.sza.honfoglalo.feature.game
 
-import android.app.GameState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bme.aut.sza.honfoglalo.data.entities.GameStates
@@ -41,6 +40,7 @@ class GameViewModel @Inject constructor(
                                     waitingTypes = GameWaitingTypes.WAITING_FOR_HOST,
                                     gameStates = GameStates.CHOOSING_QUESTION,
                                     hasAnswered = false,
+                                    hasChosenTerritory = false,
                                 )
                             }
                         }
@@ -57,7 +57,6 @@ class GameViewModel @Inject constructor(
                                 it.copy(
                                     gameStates = GameStates.TERRITORY_SELECTION,
                                     waitingTypes = GameWaitingTypes.WAITING_FOR_OTHERS,
-                                    hasAnswered = false,
                                 )
                             }
                         }
@@ -68,7 +67,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: GameEvents, answer: Int?) {
+    fun onEvent(event: GameEvents, answer: Int? = 0, territory: String? = "") {
         when (event) {
             GameEvents.answerQuestion -> {
                 val response = _state.value.question!!.answers[answer!!]
@@ -81,12 +80,29 @@ class GameViewModel @Inject constructor(
                     )
                 }
             }
+
+            GameEvents.selectTerritory -> {
+                selectTerritory(territory!!)
+                _state.update {
+                    it.copy(
+                        gameStates = GameStates.CHOOSING_QUESTION,
+                        waitingTypes = GameWaitingTypes.WAITING_FOR_OTHERS,
+                        hasChosenTerritory = true
+                    )
+                }
+            }
         }
     }
 
     private fun answerQuestion(response: String) {
         viewModelScope.launch {
             questUseCases.answerQuestionUseCase(answer = response)
+        }
+    }
+
+    private fun selectTerritory(territory: String) {
+        viewModelScope.launch {
+            questUseCases.selectTerritoryUseCase(territory = territory)
         }
     }
 }
@@ -99,8 +115,10 @@ data class GameScreenState(
     val currentRound: Int = 0,
     val totalRound: Int = 10,
     val hasAnswered: Boolean = false,
+    val hasChosenTerritory: Boolean = false
 )
 
 sealed class GameEvents {
     data object answerQuestion: GameEvents()
+    data object selectTerritory: GameEvents()
 }
