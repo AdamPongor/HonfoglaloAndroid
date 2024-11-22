@@ -2,24 +2,35 @@ package bme.aut.sza.honfoglalo.data.entities
 
 import bme.aut.sza.honfoglalo.R
 
-enum class Region(val Name: String, val Resource: Int) {
-    BACS("Bács-Kiskun", R.drawable.bacs),
-    BARANYA("Baranya", R.drawable.baranya),
-    BEKES("Békés", R.drawable.bekes),
-    BORSOD("Borsod-Abaúj-Zemplén", R.drawable.borsod),
-    CSONGRAD("Csongrád-Csanád", R.drawable.csongrad),
-    FEJER("Fejér", R.drawable.fejer),
-    GYOR("Győr-Moson-Sopron", R.drawable.gyor),
-    HAJDU("Hajdú-Bihar", R.drawable.hajdu),
-    HEVES("Heves", R.drawable.heves),
-    JASZ("Jász-Nagykun-Szolnok", R.drawable.jasz),
-    KOMAROM("Komárom", R.drawable.komarom),
-    NOGRAD("Nógrád", R.drawable.nograd),
-    PEST("Pest", R.drawable.pest),
-    SOMOGY("Somogy", R.drawable.somogy),
-    SZABOLCS("Szabolcs-Szatmár-Bereg", R.drawable.szabolcs),
-    TOLNA("Tolna", R.drawable.tolna),
-    VAS("Vas", R.drawable.vas),
-    VESZPREM("Veszprém", R.drawable.veszprem),
-    ZALA("Zala", R.drawable.zala),
+enum class Territory(val FullName: String,val idName: String, val Resource: Int) {
+    BACS("Bács-Kiskun", "BK", R.drawable.bacs),
+    BARANYA("Baranya","BARANYA", R.drawable.baranya),
+    BEKES("Békés", "BEKES",R.drawable.bekes),
+    BORSOD("Borsod-Abaúj-Zemplén", "BAZ", R.drawable.borsod),
+    CSONGRAD("Csongrád-Csanád", "CSONGRAD", R.drawable.csongrad),
+    FEJER("Fejér","FEJER", R.drawable.fejer),
+    GYOR("Győr-Moson-Sopron","GYMS", R.drawable.gyor),
+    HAJDU("Hajdú-Bihar","HB", R.drawable.hajdu),
+    HEVES("Heves","HEVES", R.drawable.heves),
+    JASZ("Jász-Nagykun-Szolnok","JNSZ", R.drawable.jasz),
+    KOMAROM("Komárom","KE", R.drawable.komarom),
+    NOGRAD("Nógrád","NOGRAD", R.drawable.nograd),
+    PEST("Pest","PEST", R.drawable.pest),
+    SOMOGY("Somogy","SOMOGY", R.drawable.somogy),
+    SZABOLCS("Szabolcs-Szatmár-Bereg","SZSZB", R.drawable.szabolcs),
+    TOLNA("Tolna","TOLNA", R.drawable.tolna),
+    VAS("Vas", "VAS",R.drawable.vas),
+    VESZPREM("Veszprém", "VESZPREM", R.drawable.veszprem),
+    ZALA("Zala", "ZALA", R.drawable.zala);
+
+    fun getID(name: String) : String{
+        for (t in Territory.entries){
+            if(t.FullName == name){
+                return t.idName
+            }
+        }
+        return ""
+    }
+
+
 }
