@@ -76,7 +76,7 @@ fun GameScreen(
                     viewModel.onEvent(GameEvents.selectTerritory, 0, territory)
                 }
             },
-            scale = 0.65F,
+            scale = 0.9F,
         )
 
         Column(

@@ -81,6 +81,6 @@ fun PlayerInfo(player: PlayerUI) {
 @Preview
 @Composable
 fun PlayerInfoPreview() {
-    val player = PlayerUI("Lajos", 6900, Color.Red)
+    val player = PlayerUI("Lajos", 4200, Color.Red)
     PlayerInfo(player)
 }

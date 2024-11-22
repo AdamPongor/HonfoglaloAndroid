@@ -32,7 +32,7 @@ fun GameMap(
     Canvas(
         Modifier
             .fillMaxHeight()
-            .aspectRatio(1.2f)
+            .aspectRatio(1.4f)
             .pointerInput(Unit) {
                 detectTapGestures { offset ->
                     clickPosition.value = offset

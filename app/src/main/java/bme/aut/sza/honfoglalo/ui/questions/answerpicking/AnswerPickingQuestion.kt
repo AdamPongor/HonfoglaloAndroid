@@ -53,8 +53,8 @@ fun AnswerPickingQuestion(
 fun AnswerPickingQuestionPreview() {
     val q =
         Question(
-            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
-            // category = Category.ENTERTAINMENT,
+            question = "Long long long long long long long long long long long long long quzestion?",
+            //category = Category.ENTERTAINMENT,
             answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
         )
 

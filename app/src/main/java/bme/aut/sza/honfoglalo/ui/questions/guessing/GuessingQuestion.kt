@@ -74,7 +74,7 @@ fun GuessingQuestionPreview() {
 
     val q =
         Question(
-            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+            question = "Long long long long long long long long long long long long long quzestion?",
             // category = Category.ENTERTAINMENT,
             answers = listOf("69"),
         )
