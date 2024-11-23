@@ -1,12 +1,10 @@
 package bme.aut.sza.honfoglalo.feature.game
 
 import android.util.Log
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import bme.aut.sza.honfoglalo.data.entities.County
 import bme.aut.sza.honfoglalo.data.entities.GameStates
-import bme.aut.sza.honfoglalo.data.entities.Territory
 import bme.aut.sza.honfoglalo.domain.model.Territory
 import bme.aut.sza.honfoglalo.domain.model.asPlayerUI
 import bme.aut.sza.honfoglalo.domain.usecases.QuizQuestUseCases
@@ -16,7 +14,6 @@ import bme.aut.sza.honfoglalo.ui.model.QuestionUi
 import bme.aut.sza.honfoglalo.ui.model.asAnswer
 import bme.aut.sza.honfoglalo.ui.model.asQuestionUi
 import bme.aut.sza.honfoglalo.ui.util.GameWaitingTypes
-import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,7 +38,6 @@ class GameViewModel @Inject constructor(
                             currentRound = _state.value.currentRound + 1
                         )
                     }
-
                     when (gameState.state) {
                         GameStates.CHOOSING_QUESTION -> {
                             _state.update {
@@ -90,7 +86,7 @@ class GameViewModel @Inject constructor(
             }
 
             GameEvents.selectTerritory -> {
-                selectTerritory(Territory(territory!!))
+                selectTerritory(Territory(territory!!, null))
                 _state.update {
                     it.copy(
                         //gameStates = GameStates.CHOOSING_QUESTION,

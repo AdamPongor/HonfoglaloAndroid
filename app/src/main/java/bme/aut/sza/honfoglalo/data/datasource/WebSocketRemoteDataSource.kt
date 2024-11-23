@@ -69,6 +69,8 @@ class WebSocketRemoteDataSource(
 
         socket.emit(GameEvents.REQUEST_UPDATE.Name, JSONObject())
 
+
+
         socket.on(GameEvents.GAME_UPDATED.Name) { args ->
             try {
                 val state = WebSocketDataParser.parseGameState(args)
@@ -107,15 +109,18 @@ class WebSocketRemoteDataSource(
             try {
                 val state = WebSocketDataParser.parseGameState(args)
                 if (state != null) {
+                    Log.d("xdd", args[0].toString())
                     val players = WebSocketDataParser.parsePlayers(args)
+                    val territories = WebSocketDataParser.parseMap(args)
+                    Log.d("xdd", territories.toString())
                     when(state) {
                         GameStates.CHOOSING_QUESTION -> {
-                            val gameData = GameDataEntity(state, players, null, null)
+                            val gameData = GameDataEntity(state, players, null, null, territories)
                             trySend(gameData)
                         }
                         GameStates.ANSWERING_QUESTION -> {
                             val question = WebSocketDataParser.parseQuestion(args)
-                            val gameData = GameDataEntity(state, players, question, null)
+                            val gameData = GameDataEntity(state, players, question, null, territories)
                             trySend(gameData)
                         }
                         GameStates.TERRITORY_SELECTION -> {
@@ -124,11 +129,11 @@ class WebSocketRemoteDataSource(
                             CoroutineScope(Dispatchers.IO).launch {
                                 val myUser = userPreferencesDataSource.getUserId()
                                 val isMyTurn = territorySelection.territorySelection.first().id == myUser
-                                val gameData = GameDataEntity(state, players, null, isMyTurn)
+                                val gameData = GameDataEntity(state, players, null, isMyTurn, territories)
                                 trySend(gameData)
                             }
                         }
-                        else-> { }
+                        else-> {}
                     }
                 } else {
                     close(IllegalArgumentException("Invalid game state received: $state"))

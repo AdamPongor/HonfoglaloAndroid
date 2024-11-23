@@ -7,8 +7,12 @@ import bme.aut.sza.honfoglalo.data.entities.AnswerEntity
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
 import bme.aut.sza.honfoglalo.data.entities.QuestionEntity
+import bme.aut.sza.honfoglalo.data.entities.TerritoryEntity
 import bme.aut.sza.honfoglalo.data.entities.TerritorySelection
 import bme.aut.sza.honfoglalo.data.entities.TerritorySelections
+import bme.aut.sza.honfoglalo.domain.model.Territory
+import bme.aut.sza.honfoglalo.ui.theme.Tan
+import org.json.JSONArray
 import org.json.JSONObject
 
 object WebSocketDataParser {
@@ -70,5 +74,29 @@ object WebSocketDataParser {
         }
 
         return TerritorySelections(selections)
+    }
+
+    fun parseMap(args: Array<Any>): List<Territory> {
+        val response = JSONObject(args[0].toString())
+        val mapState = mutableListOf<Territory>()
+        try {
+            val territories = response.getJSONArray("territories")
+
+
+            for (i in 0 until territories.length()){
+                val item = territories.getJSONObject(i)
+                val id = item.getString("name")
+                var color = Tan
+                try {
+                    color = Color(parseColor(item.getString("color")))
+                } catch (_: Throwable){
+
+                }
+                mapState.add(Territory(id, color))
+            }
+        } catch (_: Throwable){
+
+        }
+        return mapState
     }
 }
