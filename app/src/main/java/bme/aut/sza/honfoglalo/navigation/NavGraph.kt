@@ -33,7 +33,11 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
             )
         }
         composable(Screen.Game.route) {
-            GameScreen()
+            GameScreen(
+                onGameEndClick = {
+                    navController.navigate(Screen.Join.route)
+                }
+            )
         }
     }
 }

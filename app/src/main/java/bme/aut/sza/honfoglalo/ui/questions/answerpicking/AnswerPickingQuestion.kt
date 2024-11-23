@@ -6,14 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
 import bme.aut.sza.honfoglalo.data.entities.Category
-import bme.aut.sza.honfoglalo.domain.model.Question
+import bme.aut.sza.honfoglalo.data.entities.QuestionType
+import bme.aut.sza.honfoglalo.ui.model.AnswerUi
 import bme.aut.sza.honfoglalo.ui.model.QuestionUi
 import bme.aut.sza.honfoglalo.ui.questions.QuestionBox
 import bme.aut.sza.honfoglalo.ui.theme.Shade
@@ -23,7 +23,7 @@ fun AnswerPickingQuestion(
     question: QuestionUi,
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
-    onAnswerSelected: (Int) -> Unit
+    onAnswerSelected: (String) -> Unit
 ) {
     Popup(
         onDismissRequest = onDismissRequest,
@@ -36,7 +36,7 @@ fun AnswerPickingQuestion(
         ) {
             QuestionBox(
                 question = question.question,
-                //category = question.category,
+                category = question.category,
             )
 
             Spacer(modifier = modifier.fillMaxHeight(0.1f))
@@ -49,17 +49,18 @@ fun AnswerPickingQuestion(
     }
 }
 
-//@Preview
-//@Composable
-//fun AnswerPickingQuestionPreview() {
-//    val q =
-//        Question(
-//            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
-//            // category = Category.ENTERTAINMENT,
-//            answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
-//        )
-//
-//    Box(modifier = Modifier) {
-//        AnswerPickingQuestion(question = q, onAnswerSelected = {})
-//    }
-//}
+@Preview
+@Composable
+fun AnswerPickingQuestionPreview() {
+    val q =
+        QuestionUi(
+            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+            answers = listOf(AnswerUi("Answer 1"), AnswerUi("Answer 2"), AnswerUi("Answer 3"), AnswerUi("Answer 4")),
+            category = Category.ENTERTAINMENT,
+            type = QuestionType.ANSWER_PICK
+        )
+
+    Box(modifier = Modifier) {
+        AnswerPickingQuestion(question = q, onAnswerSelected = {})
+    }
+}

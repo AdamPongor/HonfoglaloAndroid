@@ -4,15 +4,15 @@ import android.graphics.Color.parseColor
 import android.util.Log
 import androidx.compose.ui.graphics.Color
 import bme.aut.sza.honfoglalo.data.entities.AnswerEntity
+import bme.aut.sza.honfoglalo.data.entities.Category
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
 import bme.aut.sza.honfoglalo.data.entities.QuestionEntity
-import bme.aut.sza.honfoglalo.data.entities.TerritoryEntity
+import bme.aut.sza.honfoglalo.data.entities.QuestionType
 import bme.aut.sza.honfoglalo.data.entities.TerritorySelection
 import bme.aut.sza.honfoglalo.data.entities.TerritorySelections
 import bme.aut.sza.honfoglalo.domain.model.Territory
 import bme.aut.sza.honfoglalo.ui.theme.Tan
-import org.json.JSONArray
 import org.json.JSONObject
 
 object WebSocketDataParser {
@@ -35,7 +35,7 @@ object WebSocketDataParser {
             val playerJson = players.getJSONObject(index)
             PlayerEntity(
                 name = playerJson.getString("name"),
-                score = 0,
+                score = playerJson.getInt("score"),
                 color = Color(parseColor(playerJson.getString("color")))
             )
         }
@@ -53,11 +53,19 @@ object WebSocketDataParser {
         val response = JSONObject(args[0].toString())
         val questionState = response.getJSONObject("questionState")
         val questionObject = questionState.getJSONObject("question")
+        Log.d("Question object: ", questionObject.toString())
         val question = questionObject.getString("question")
-        val answer = questionObject.getString("answer")
+        val possibleAnswers = questionObject.getJSONArray("possibleAnswers")
+        val answersList: List<AnswerEntity> = List(possibleAnswers.length()) { i ->
+            AnswerEntity(possibleAnswers.getString(i))
+        }
+        val questionCategory = Category.fromString(questionObject.getString("category"))
+        val questionType = QuestionType.fromString(questionObject.getString("type"))
         return QuestionEntity(
             question = question,
-            answers = listOf(AnswerEntity(answer))
+            possibleAnswers = answersList,
+            category = questionCategory,
+            type = questionType,
         )
     }
 

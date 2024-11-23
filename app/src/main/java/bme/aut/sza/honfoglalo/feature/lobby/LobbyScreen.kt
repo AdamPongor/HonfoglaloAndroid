@@ -94,7 +94,7 @@ fun LobbyScreen(
             ) {
                 LazyColumn {
                     items(state.players.size) { i ->
-                        PlayerListUI(color = state.players[i].color, name = state.players[i].name)
+                        PlayerListUI(color = state.players[i].color, name = state.players[i].name, score = null)
                     }
                 }
             }

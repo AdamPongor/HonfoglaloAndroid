@@ -36,7 +36,7 @@ import bme.aut.sza.honfoglalo.R
 import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 
 @Composable
-fun PlayerListUI(color: Color, name: String){
+fun PlayerListUI(color: Color, name: String, score: Int?){
     Card (
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -69,6 +69,15 @@ fun PlayerListUI(color: Color, name: String){
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
             )
+            if (score != null) {
+                Text(
+                    text = "$score",
+                    modifier = Modifier
+                        .padding(16.dp),
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center,
+                )
+            }
             Box(
                 modifier = Modifier
                     .padding(15.dp)
@@ -78,7 +87,9 @@ fun PlayerListUI(color: Color, name: String){
                     .background(color = color, shape = FlatCornerShape)
                     .clip(FlatCornerShape)
                     .border(BorderStroke(2.dp, Color.Black), shape = FlatCornerShape)
-            )
+            ) {
+
+            }
         }
     }
 }
@@ -87,5 +98,5 @@ fun PlayerListUI(color: Color, name: String){
 @Preview
 @Composable
 fun PlayerListElementPreview(){
-    PlayerListUI(Color.Blue, "Jeff xd")
+    PlayerListUI(Color.Blue, "Jeff xd", 1500)
 }

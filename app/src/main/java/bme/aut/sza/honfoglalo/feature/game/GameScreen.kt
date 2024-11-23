@@ -11,39 +11,32 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import bme.aut.sza.honfoglalo.data.entities.County
 import bme.aut.sza.honfoglalo.data.entities.GameStates
+import bme.aut.sza.honfoglalo.data.entities.QuestionType
+import bme.aut.sza.honfoglalo.ui.common.LeaderBoard
 import bme.aut.sza.honfoglalo.ui.common.WaitHourglass
 import bme.aut.sza.honfoglalo.ui.map.PlayerInfo
-import bme.aut.sza.honfoglalo.ui.map.RoundCounter
 import bme.aut.sza.honfoglalo.ui.map.GameMap
 import bme.aut.sza.honfoglalo.ui.questions.answerpicking.AnswerPickingQuestion
+import bme.aut.sza.honfoglalo.ui.questions.guessing.GuessingQuestion
 import bme.aut.sza.honfoglalo.ui.util.GameWaitingTypes
-import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
 import kotlinx.coroutines.launch
 
 @Composable
 fun GameScreen(
+    onGameEndClick: () -> Unit,
     viewModel: GameViewModel = hiltViewModel()
 ) {
     val configuration = LocalConfiguration.current
@@ -61,7 +54,7 @@ fun GameScreen(
             onCountyClick = { territory ->
                 Log.d("territory: ", territory)
                 scope.launch {
-                    viewModel.onEvent(GameEvents.selectTerritory, 0, territory)
+                    viewModel.onEvent(GameEvents.selectTerritory, "", territory)
                 }
             },
             scale = 0.9F,
@@ -85,12 +78,38 @@ fun GameScreen(
 
         when (state.gameStates == GameStates.ANSWERING_QUESTION && !state.hasAnswered) {
             true -> {
-                AnswerPickingQuestion(
-                    question = state.question!!,
-                    onAnswerSelected = { index ->
-                        scope.launch {
-                            viewModel.onEvent(GameEvents.answerQuestion, index)
-                        }
+                when(state.question!!.type) {
+                    QuestionType.GUESS -> {
+                        GuessingQuestion(
+                            question = state.question!!,
+                            onAcceptButtonClick = { answer ->
+                                scope.launch {
+                                    viewModel.onEvent(GameEvents.answerQuestion, answer)
+                                }
+                            }
+                        )
+                    }
+                    QuestionType.ANSWER_PICK -> {
+                        AnswerPickingQuestion(
+                            question = state.question!!,
+                            onAnswerSelected = { answer ->
+                                scope.launch {
+                                    viewModel.onEvent(GameEvents.answerQuestion, answer)
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+            false -> { }
+        }
+
+        when(state.gameStates == GameStates.END) {
+            true -> {
+                LeaderBoard(
+                    players = state.players,
+                    onClick = {
+                        onGameEndClick()
                     }
                 )
             }
@@ -119,7 +138,6 @@ fun GameScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                //RoundCounter(state.totalRounds, state.currentRound)
                 info()
             }
         } else {
@@ -138,10 +156,11 @@ fun GameScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start,
                 ) {
-
+                    items(state.players.size) { i ->
+                        PlayerInfo(player = state.players[i])
+                    }
                 }
                 info()
-                //RoundCounter(totalRounds = state.totalRounds, currentRound = state.currentRound)
             }
         }
     }

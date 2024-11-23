@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -20,11 +19,10 @@ import bme.aut.sza.honfoglalo.ui.theme.Shade
 @Composable
 fun GuessingQuestion(
     question: QuestionUi,
-    guess: MutableState<String>,
-    onAcceptButtonClick: () -> Unit = {},
+    onAcceptButtonClick: (String) -> Unit = {},
     onDismissRequest: () -> Unit = {},
 ) {
-    var numpadScale: Float
+    val numpadScale: Float
     val configuration = LocalConfiguration.current
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
@@ -48,14 +46,13 @@ fun GuessingQuestion(
         ) {
             QuestionBox(
                 question = question.question,
-                // category = question.category,
+                category = question.category,
             )
 
             Spacer(modifier = Modifier.fillMaxHeight(0.1f))
 
             Numpad(
                 modifier = Modifier.fillMaxWidth(numpadScale),
-                mutableState = guess,
                 onAccept = onAcceptButtonClick,
             )
         }

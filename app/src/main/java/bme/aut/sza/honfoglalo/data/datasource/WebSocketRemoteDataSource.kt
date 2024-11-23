@@ -125,13 +125,20 @@ class WebSocketRemoteDataSource(
                         }
                         GameStates.TERRITORY_SELECTION -> {
                             val territorySelection = WebSocketDataParser.parseTerritorySelection(args)
-                            Log.d("Territory select: ", territorySelection.toString())
                             CoroutineScope(Dispatchers.IO).launch {
                                 val myUser = userPreferencesDataSource.getUserId()
-                                val isMyTurn = territorySelection.territorySelection.first().id == myUser
+                                val isMyTurn = territorySelection.territorySelection
+                                    .firstOrNull { it.selections > 0 }
+                                    ?.id == myUser
                                 val gameData = GameDataEntity(state, players, null, isMyTurn, territories)
                                 trySend(gameData)
                             }
+                        }
+                        GameStates.END -> {
+                            val gameData = GameDataEntity(state, players, null, null, territories)
+                            trySend(gameData)
+                            socket.off()
+                            socketHandler.closeConnection()
                         }
                         else-> {}
                     }

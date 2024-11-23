@@ -14,7 +14,7 @@ import bme.aut.sza.honfoglalo.ui.model.AnswerUi
 fun AnswerPicker(
     answers: List<AnswerUi>,
     modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit,
+    onClick: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -23,9 +23,9 @@ fun AnswerPicker(
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)) {
-                AnswerButton(answer = answers[i].answer, modifier = Modifier.weight(1f), onClick = { onClick(i) })
+                AnswerButton(answer = answers[i].answer, modifier = Modifier.weight(1f), onClick = { onClick(answers[i].answer) })
                 if (i < answers.size - 1) {
-                    AnswerButton(answer = answers[i + 1].answer, modifier = Modifier.weight(1f), onClick = { onClick(i+1) })
+                    AnswerButton(answer = answers[i + 1].answer, modifier = Modifier.weight(1f), onClick = { onClick(answers[i + 1].answer) })
                 }
             }
         }

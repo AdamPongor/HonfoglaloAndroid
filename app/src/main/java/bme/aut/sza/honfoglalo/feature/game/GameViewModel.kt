@@ -1,6 +1,5 @@
 package bme.aut.sza.honfoglalo.feature.game
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -26,7 +25,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-@SuppressLint("StaticFieldLeak")
 class GameViewModel @Inject constructor(
     private val questUseCases: QuizQuestUseCases,
     @ApplicationContext val context: Context
@@ -56,7 +54,6 @@ class GameViewModel @Inject constructor(
 
                         it.copy(
                             players = gameState.playerList.map { it.asPlayerUI() },
-                            currentRound = _state.value.currentRound + 1,
                         )
                     }
                     when (gameState.state) {
@@ -86,6 +83,14 @@ class GameViewModel @Inject constructor(
                                 )
                             }
                         }
+                        GameStates.END -> {
+                            _state.update {
+                                it.copy(
+                                    gameStates = GameStates.END,
+                                    waitingTypes = GameWaitingTypes.NONE
+                                )
+                            }
+                        }
                         else -> { }
                     }
                 }
@@ -93,11 +98,12 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: GameEvents, answer: Int? = 0, territory: String? = "") {
+    fun onEvent(event: GameEvents, answer: String? = "", territory: String? = "") {
         when (event) {
             GameEvents.answerQuestion -> {
-                val response = _state.value.question!!.answers[answer!!]
-                answerQuestion(response)
+                answerQuestion(
+                    AnswerUi(answer!!)
+                )
                 _state.update {
                     it.copy(
                         //gameStates = GameStates.TERRITORY_SELECTION,
@@ -136,8 +142,6 @@ data class GameScreenState(
     val players: List<PlayerUI> = emptyList(),
     val territories: List<County> = emptyList(),
     val question: QuestionUi? = null,
-    val currentRound: Int = 0,
-    val totalRounds: Int = 10,
     val hasAnswered: Boolean = false,
 )
 
