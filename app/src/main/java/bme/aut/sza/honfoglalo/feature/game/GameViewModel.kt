@@ -1,5 +1,7 @@
 package bme.aut.sza.honfoglalo.feature.game
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +16,9 @@ import bme.aut.sza.honfoglalo.ui.model.QuestionUi
 import bme.aut.sza.honfoglalo.ui.model.asAnswer
 import bme.aut.sza.honfoglalo.ui.model.asQuestionUi
 import bme.aut.sza.honfoglalo.ui.util.GameWaitingTypes
+import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -22,20 +26,37 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
+@SuppressLint("StaticFieldLeak")
 class GameViewModel @Inject constructor(
-    private val questUseCases: QuizQuestUseCases
+    private val questUseCases: QuizQuestUseCases,
+    @ApplicationContext val context: Context
 ): ViewModel() {
     private val _state = MutableStateFlow(GameScreenState())
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
+
+            _state.update {
+                it.copy(
+                    territories = loadGeoJson(context)
+                )
+            }
+
             questUseCases.handleGameUseCase().collect { result ->
                 result.onSuccess { gameState ->
+                    Log.d("xdd", gameState.territories.toString())
+
                     _state.update {
+                        for (i in gameState.territories){
+                            val newCounty = _state.value.territories.find { it.name == i.territory }
+                            newCounty?.color = i.color!!
+                            Log.d("xdd", i.color.toString())
+                        }
+
                         it.copy(
                             players = gameState.playerList.map { it.asPlayerUI() },
-                            currentRound = _state.value.currentRound + 1
+                            currentRound = _state.value.currentRound + 1,
                         )
                     }
                     when (gameState.state) {

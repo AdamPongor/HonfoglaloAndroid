@@ -33,7 +33,7 @@ enum class TerritoryEntity(val FullName: String, val idName: String) {
 
         fun getName(name: String) : String{
             for (t in TerritoryEntity.entries){
-                if(t.FullName == name){
+                if(t.idName == name){
                     return t.FullName
                 }
             }

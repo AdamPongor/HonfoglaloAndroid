@@ -48,24 +48,16 @@ fun GameScreen(
 ) {
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-
-    val regions = remember { mutableStateOf<List<County>>(emptyList()) }
-    val context = LocalContext.current
-
+    
     val scope = rememberCoroutineScope()
-
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        regions.value = loadGeoJson(context)
-    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         GameMap(
-            counties = regions.value,
+            counties = state.territories,
             onCountyClick = { territory ->
                 Log.d("territory: ", territory)
                 scope.launch {
