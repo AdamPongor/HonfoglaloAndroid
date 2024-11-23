@@ -1,14 +1,18 @@
 package bme.aut.sza.honfoglalo.feature.game
 
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import bme.aut.sza.honfoglalo.data.entities.County
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.Question
+import bme.aut.sza.honfoglalo.data.entities.Territory
 import bme.aut.sza.honfoglalo.domain.model.asPlayerUI
 import bme.aut.sza.honfoglalo.domain.usecases.QuizQuestUseCases
 import bme.aut.sza.honfoglalo.ui.model.PlayerUI
 import bme.aut.sza.honfoglalo.ui.util.GameWaitingTypes
+import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -57,7 +61,7 @@ class GameViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     gameStates = GameStates.TERRITORY_SELECTION,
-                                    waitingTypes = if(gameState.myTurn!!) GameWaitingTypes.NONE else GameWaitingTypes.WAITING_FOR_OTHERS
+                                    waitingTypes = if(gameState.myTurn!!) GameWaitingTypes.WAITING_FOR_ME else GameWaitingTypes.WAITING_FOR_OTHERS
                                 )
                             }
                         }
@@ -75,7 +79,7 @@ class GameViewModel @Inject constructor(
                 answerQuestion(response)
                 _state.update {
                     it.copy(
-                        gameStates = GameStates.TERRITORY_SELECTION,
+                        //gameStates = GameStates.TERRITORY_SELECTION,
                         hasAnswered = true
                     )
                 }
@@ -85,7 +89,7 @@ class GameViewModel @Inject constructor(
                 selectTerritory(territory!!)
                 _state.update {
                     it.copy(
-                        gameStates = GameStates.CHOOSING_QUESTION,
+                        //gameStates = GameStates.CHOOSING_QUESTION,
                     )
                 }
             }
@@ -109,6 +113,7 @@ data class GameScreenState(
     val gameStates: GameStates = GameStates.CHOOSING_QUESTION,
     val waitingTypes: GameWaitingTypes = GameWaitingTypes.WAITING_FOR_HOST,
     val players: List<PlayerUI> = emptyList(),
+    val territories: List<County> = emptyList(),
     val question: Question? = null,
     val currentRound: Int = 0,
     val totalRounds: Int = 10,

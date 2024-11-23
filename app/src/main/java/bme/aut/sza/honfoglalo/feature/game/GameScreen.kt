@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -79,23 +82,21 @@ fun GameScreen(
             scale = 0.9F,
         )
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.End){
-            when (state.waitingTypes) {
-                GameWaitingTypes.WAITING_FOR_OTHERS -> {
-                    WaitHourglass("Waiting for others!")
-                }
-                GameWaitingTypes.WAITING_FOR_HOST -> {
-                    WaitHourglass("Waiting for host!")
-                }
-                GameWaitingTypes.NONE -> {
-                    Text(text = "Please choose a territory!")
-                }
+        @Composable fun info() = when (state.waitingTypes) {
+            GameWaitingTypes.WAITING_FOR_OTHERS -> {
+                WaitHourglass("Waiting for others!")
             }
-        }
 
+            GameWaitingTypes.WAITING_FOR_HOST -> {
+                WaitHourglass("Waiting for host!")
+            }
+
+            GameWaitingTypes.WAITING_FOR_ME -> {
+                Text(text = "Select a territory!")
+            }
+
+            GameWaitingTypes.NONE -> {}
+        }
 
         when (state.gameStates == GameStates.ANSWERING_QUESTION && !state.hasAnswered) {
             true -> {
@@ -119,21 +120,22 @@ fun GameScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Row(
+                LazyRow(
                     modifier =
                     Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
-                    state.players.forEach { player ->
-                        PlayerInfo(player = player)
+                    items(state.players.size) { i ->
+                        PlayerInfo(player = state.players[i])
                     }
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                RoundCounter(state.totalRounds, state.currentRound)
+                //RoundCounter(state.totalRounds, state.currentRound)
+                info()
             }
         } else {
             Row(
@@ -141,21 +143,20 @@ fun GameScreen(
                 Modifier
                     .fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Bottom,
             ) {
-                Column(
+                LazyColumn(
                     modifier =
                     Modifier
                         .padding(start = 16.dp)
-                        .weight(1f),
+                        .fillMaxHeight(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    state.players.forEach { player ->
-                        PlayerInfo(player = player)
-                    }
+
                 }
-                RoundCounter(totalRounds = state.totalRounds, currentRound = state.currentRound)
+                info()
+                //RoundCounter(totalRounds = state.totalRounds, currentRound = state.currentRound)
             }
         }
     }
