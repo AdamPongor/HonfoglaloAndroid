@@ -1,7 +1,7 @@
 package bme.aut.sza.honfoglalo.data.entities
 
-data class Question(
+data class QuestionEntity(
     val question: String,
     // val category: Category?,
-    val answers: List<String>,
+    val answers: List<AnswerEntity>,
 )

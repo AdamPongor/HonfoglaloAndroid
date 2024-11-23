@@ -13,13 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
 import bme.aut.sza.honfoglalo.data.entities.Category
-import bme.aut.sza.honfoglalo.data.entities.Question
+import bme.aut.sza.honfoglalo.domain.model.Question
+import bme.aut.sza.honfoglalo.ui.model.QuestionUi
 import bme.aut.sza.honfoglalo.ui.questions.QuestionBox
 import bme.aut.sza.honfoglalo.ui.theme.Shade
 
 @Composable
 fun AnswerPickingQuestion(
-    question: Question,
+    question: QuestionUi,
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
     onAnswerSelected: (Int) -> Unit
@@ -48,17 +49,17 @@ fun AnswerPickingQuestion(
     }
 }
 
-@Preview
-@Composable
-fun AnswerPickingQuestionPreview() {
-    val q =
-        Question(
-            question = "Long long long long long long long long long long long long long quzestion?",
-            //category = Category.ENTERTAINMENT,
-            answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
-        )
-
-    Box(modifier = Modifier) {
-        AnswerPickingQuestion(question = q, onAnswerSelected = {})
-    }
-}
+//@Preview
+//@Composable
+//fun AnswerPickingQuestionPreview() {
+//    val q =
+//        Question(
+//            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+//            // category = Category.ENTERTAINMENT,
+//            answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
+//        )
+//
+//    Box(modifier = Modifier) {
+//        AnswerPickingQuestion(question = q, onAnswerSelected = {})
+//    }
+//}

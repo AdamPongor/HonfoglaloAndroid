@@ -2,7 +2,7 @@ package bme.aut.sza.honfoglalo.data.entities
 
 import bme.aut.sza.honfoglalo.R
 
-enum class Territory(val FullName: String,val idName: String, val Resource: Int) {
+enum class TerritoryEntity(val FullName: String,val idName: String, val Resource: Int) {
     BACS("Bács-Kiskun", "BK", R.drawable.bacs),
     BARANYA("Baranya","BARANYA", R.drawable.baranya),
     BEKES("Békés", "BEKES",R.drawable.bekes),
@@ -25,7 +25,7 @@ enum class Territory(val FullName: String,val idName: String, val Resource: Int)
 
     companion object {
         fun getID(name: String) : String{
-            for (t in Territory.entries){
+            for (t in TerritoryEntity.entries){
                 if(t.FullName == name){
                     return t.idName
                 }

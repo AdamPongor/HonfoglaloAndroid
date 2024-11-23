@@ -31,23 +31,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import bme.aut.sza.honfoglalo.data.entities.Category
 import bme.aut.sza.honfoglalo.data.entities.County
 import bme.aut.sza.honfoglalo.data.entities.GameStates
-import bme.aut.sza.honfoglalo.data.entities.Question
-import bme.aut.sza.honfoglalo.feature.lobby.LeaveGameEvent
 import bme.aut.sza.honfoglalo.ui.common.WaitHourglass
-import bme.aut.sza.honfoglalo.ui.model.PlayerUI
 import bme.aut.sza.honfoglalo.ui.map.PlayerInfo
 import bme.aut.sza.honfoglalo.ui.map.RoundCounter
 import bme.aut.sza.honfoglalo.ui.map.GameMap
 import bme.aut.sza.honfoglalo.ui.questions.answerpicking.AnswerPickingQuestion
-import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 import bme.aut.sza.honfoglalo.ui.util.GameWaitingTypes
-import bme.aut.sza.honfoglalo.ui.util.UiEvent
 import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @Composable
 fun GameScreen(

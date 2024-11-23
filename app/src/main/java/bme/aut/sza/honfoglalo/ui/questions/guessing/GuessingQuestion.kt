@@ -2,7 +2,6 @@ package bme.aut.sza.honfoglalo.ui.questions.guessing
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,21 +9,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
-import bme.aut.sza.honfoglalo.data.entities.Category
-import bme.aut.sza.honfoglalo.data.entities.Question
+import bme.aut.sza.honfoglalo.ui.model.QuestionUi
 import bme.aut.sza.honfoglalo.ui.questions.QuestionBox
 import bme.aut.sza.honfoglalo.ui.theme.Shade
 
 @Composable
 fun GuessingQuestion(
-    question: Question,
+    question: QuestionUi,
     guess: MutableState<String>,
     onAcceptButtonClick: () -> Unit = {},
     onDismissRequest: () -> Unit = {},
@@ -67,19 +62,19 @@ fun GuessingQuestion(
     }
 }
 
-@Preview
-@Composable
-fun GuessingQuestionPreview() {
-    var guess = remember { mutableStateOf("") }
-
-    val q =
-        Question(
-            question = "Long long long long long long long long long long long long long quzestion?",
-            // category = Category.ENTERTAINMENT,
-            answers = listOf("69"),
-        )
-
-    Box(modifier = Modifier) {
-        GuessingQuestion(q, guess)
-    }
-}
+//@Preview
+//@Composable
+//fun GuessingQuestionPreview() {
+//    var guess = remember { mutableStateOf("") }
+//
+//    val q =
+//        Question(
+//            question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+//            // category = Category.ENTERTAINMENT,
+//            answers = listOf("69"),
+//        )
+//
+//    Box(modifier = Modifier) {
+//        GuessingQuestion(q, guess)
+//    }
+//}

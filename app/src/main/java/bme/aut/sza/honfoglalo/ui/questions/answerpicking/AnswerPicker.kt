@@ -8,10 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import bme.aut.sza.honfoglalo.ui.common.AnswerButton
+import bme.aut.sza.honfoglalo.ui.model.AnswerUi
 
 @Composable
 fun AnswerPicker(
-    answers: List<String>,
+    answers: List<AnswerUi>,
     modifier: Modifier = Modifier,
     onClick: (Int) -> Unit,
 ) {
@@ -22,18 +23,11 @@ fun AnswerPicker(
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)) {
-                AnswerButton(answer = answers[i], modifier = Modifier.weight(1f), onClick = { onClick(i) })
+                AnswerButton(answer = answers[i].answer, modifier = Modifier.weight(1f), onClick = { onClick(i) })
                 if (i < answers.size - 1) {
-                    AnswerButton(answer = answers[i + 1], modifier = Modifier.weight(1f), onClick = { onClick(i+1) })
+                    AnswerButton(answer = answers[i + 1].answer, modifier = Modifier.weight(1f), onClick = { onClick(i+1) })
                 }
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AnswerPickerPreview() {
-    val answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4", "xdd")
-    AnswerPicker(answers = answers, onClick =  { 0 })
 }

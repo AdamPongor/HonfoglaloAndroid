@@ -8,4 +8,3 @@ data class TerritorySelection(
     val id: String,
     val selections: Int
 )
-

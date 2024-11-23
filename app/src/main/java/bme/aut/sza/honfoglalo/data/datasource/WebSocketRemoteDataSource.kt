@@ -1,13 +1,13 @@
 package bme.aut.sza.honfoglalo.data.datasource
 
 import android.util.Log
+import bme.aut.sza.honfoglalo.data.entities.AnswerEntity
 import bme.aut.sza.honfoglalo.data.entities.GameDataEntity
 import bme.aut.sza.honfoglalo.data.entities.GameEvents
 import bme.aut.sza.honfoglalo.data.entities.GameStates
 import bme.aut.sza.honfoglalo.data.entities.JoinGameEntity
 import bme.aut.sza.honfoglalo.data.entities.PlayerEntity
-import bme.aut.sza.honfoglalo.data.entities.Question
-import bme.aut.sza.honfoglalo.data.entities.Territory
+import bme.aut.sza.honfoglalo.data.entities.TerritoryEntity
 import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.data.util.WebSocketDataParser
 import kotlinx.coroutines.CoroutineScope
@@ -143,19 +143,19 @@ class WebSocketRemoteDataSource(
         }
     }
 
-    fun answerQuestion(answer: String) {
+    fun answerQuestion(answer: AnswerEntity) {
         val socket = socketHandler.getSocket()
         socket.emit(GameEvents.ANSWER_QUESTION.Name, JSONObject().apply {
-            put("answer", answer)
+            put("answer", answer.answer)
         })
     }
 
-    fun selectTerritory(territoryName: String) {
+    fun selectTerritory(territoryName: TerritoryEntity) {
         val socket = socketHandler.getSocket()
-        Log.d("Territory: ", territoryName)
-        Log.d("Territory: ", Territory.getID(territoryName))
+        Log.d("Territory: ", territoryName.FullName)
+        Log.d("Territory: ", territoryName.idName)
         socket.emit(GameEvents.SELECT_TERRITORY.Name, JSONObject().apply {
-            put("territory", Territory.getID(territoryName))
+            put("territory", TerritoryEntity.getID(territoryName.FullName))
         })
     }
 
