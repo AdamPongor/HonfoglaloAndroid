@@ -10,5 +10,5 @@
     <string name="sports">Sport</string>
     <string name="entertainment">Szórakozás</string>
     <string name="lifestyle">Életstílus</string>
-
+    <string name="some_error_message">Error</string>
 </resources>

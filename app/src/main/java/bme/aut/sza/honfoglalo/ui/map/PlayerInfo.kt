@@ -21,13 +21,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import bme.aut.sza.honfoglalo.data.Player
+import bme.aut.sza.honfoglalo.ui.model.PlayerUI
 import bme.aut.sza.honfoglalo.ui.common.OutlinedText
 import bme.aut.sza.honfoglalo.ui.theme.FlatCornerShape
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PlayerInfo(player: Player) {
+fun PlayerInfo(player: PlayerUI) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -81,6 +81,6 @@ fun PlayerInfo(player: Player) {
 @Preview
 @Composable
 fun PlayerInfoPreview() {
-    val player = Player("Lajos", 6900, Color.Red)
+    val player = PlayerUI("Lajos", 4200, Color.Red)
     PlayerInfo(player)
 }

@@ -34,9 +34,10 @@ import bme.aut.sza.honfoglalo.ui.theme.Tan
 @Composable
 fun Numpad(
     modifier: Modifier = Modifier,
-    mutableState: MutableState<String>,
-    onAccept: () -> Unit = {},
+    onAccept: (String) -> Unit = {},
 ) {
+    val guess = remember { mutableStateOf("") }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
@@ -53,7 +54,7 @@ fun Numpad(
             contentAlignment = Alignment.Center,
         ) {
             AutoResizeText(
-                text = mutableState.value,
+                text = guess.value,
                 modifier =
                 Modifier
                     .fillMaxSize()
@@ -72,7 +73,7 @@ fun Numpad(
                         .weight(1f),
                     number = i,
                     onClick = {
-                        mutableState.value = mutableState.value.plus(i)
+                        guess.value = guess.value.plus(i)
                     },
                 )
             }
@@ -83,7 +84,7 @@ fun Numpad(
                     .weight(1f),
                 number = 0,
                 onClick = {
-                    mutableState.value = mutableState.value.plus(0)
+                    guess.value = guess.value.plus(0)
                 },
             )
             BackSpaceButton(
@@ -92,7 +93,7 @@ fun Numpad(
                     .padding(3.dp)
                     .weight(1f),
                 onClick = {
-                    mutableState.value = mutableState.value.dropLast(1)
+                    guess.value = guess.value.dropLast(1)
                 },
             )
         }
@@ -112,7 +113,7 @@ fun Numpad(
                                 .weight(1f),
                             number = i,
                             onClick = {
-                                mutableState.value = mutableState.value.plus(i)
+                                guess.value = guess.value.plus(i)
                             },
                         )
                     }
@@ -128,7 +129,7 @@ fun Numpad(
                                 .weight(1f),
                             number = i,
                             onClick = {
-                                mutableState.value = mutableState.value.plus(i)
+                                guess.value = guess.value.plus(i)
                             },
                         )
                     }
@@ -141,6 +142,7 @@ fun Numpad(
                     .weight(2f)
                     .height(106.dp),
                 onClick = {
+                    onAccept(guess.value)
                 },
             )
         }
@@ -172,12 +174,12 @@ fun Numpad(
     }
 }
 
-@Preview
-@Composable
-fun NumpadPreview() {
-    var guess = remember { mutableStateOf("") }
-
-    Numpad(
-        mutableState = guess,
-    )
-}
+//@Preview
+//@Composable
+//fun NumpadPreview() {
+//    var guess = remember { mutableStateOf("") }
+//
+//    Numpad(
+//        guess = guess,
+//    )
+//}

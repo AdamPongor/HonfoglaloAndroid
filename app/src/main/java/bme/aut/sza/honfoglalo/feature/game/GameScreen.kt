@@ -1,61 +1,120 @@
 package bme.aut.sza.honfoglalo.feature.game
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import bme.aut.sza.honfoglalo.data.County
-import bme.aut.sza.honfoglalo.data.Player
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import bme.aut.sza.honfoglalo.data.entities.GameStates
+import bme.aut.sza.honfoglalo.data.entities.QuestionType
+import bme.aut.sza.honfoglalo.ui.common.LeaderBoard
+import bme.aut.sza.honfoglalo.ui.common.WaitHourglass
 import bme.aut.sza.honfoglalo.ui.map.PlayerInfo
-import bme.aut.sza.honfoglalo.ui.map.RoundCounter
 import bme.aut.sza.honfoglalo.ui.map.GameMap
-import bme.aut.sza.honfoglalo.ui.util.loadGeoJson
+import bme.aut.sza.honfoglalo.ui.questions.answerpicking.AnswerPickingQuestion
+import bme.aut.sza.honfoglalo.ui.questions.guessing.GuessingQuestion
+import bme.aut.sza.honfoglalo.ui.util.GameWaitingTypes
+import kotlinx.coroutines.launch
 
 @Composable
 fun GameScreen(
-    players: List<Player>,
-    totalRounds: Int,
-    currentRound: Int,
+    onGameEndClick: () -> Unit,
+    viewModel: GameViewModel = hiltViewModel()
 ) {
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-
-    val regions = remember { mutableStateOf<List<County>>(emptyList()) }
-    val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        regions.value = loadGeoJson(context)
-    }
+    
+    val scope = rememberCoroutineScope()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         GameMap(
-            counties = regions.value,
-            onCountyClick = { region ->
-                regions.value =
-                    regions.value.map {
-                        if (it == region) it.copy(color = Color.Red) else it
-                    }
+            counties = state.territories,
+            onCountyClick = { territory ->
+                Log.d("territory: ", territory)
+                scope.launch {
+                    viewModel.onEvent(GameEvents.selectTerritory, "", territory)
+                }
             },
-            scale = 0.65F,
+            scale = 0.9F,
         )
+
+        @Composable fun info() = when (state.waitingTypes) {
+            GameWaitingTypes.WAITING_FOR_OTHERS -> {
+                WaitHourglass("Waiting for others!")
+            }
+
+            GameWaitingTypes.WAITING_FOR_HOST -> {
+                WaitHourglass("Waiting for host!")
+            }
+
+            GameWaitingTypes.WAITING_FOR_ME -> {
+                Text(text = "Select a territory!")
+            }
+
+            GameWaitingTypes.NONE -> {}
+        }
+
+        when (state.gameStates == GameStates.ANSWERING_QUESTION && !state.hasAnswered) {
+            true -> {
+                when(state.question!!.type) {
+                    QuestionType.GUESS -> {
+                        GuessingQuestion(
+                            question = state.question!!,
+                            onAcceptButtonClick = { answer ->
+                                scope.launch {
+                                    viewModel.onEvent(GameEvents.answerQuestion, answer)
+                                }
+                            }
+                        )
+                    }
+                    QuestionType.ANSWER_PICK -> {
+                        AnswerPickingQuestion(
+                            question = state.question!!,
+                            onAnswerSelected = { answer ->
+                                scope.launch {
+                                    viewModel.onEvent(GameEvents.answerQuestion, answer)
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+            false -> { }
+        }
+
+        when(state.gameStates == GameStates.END) {
+            true -> {
+                LeaderBoard(
+                    players = state.players,
+                    onClick = {
+                        onGameEndClick()
+                    }
+                )
+            }
+            false -> { }
+        }
 
         if (isPortrait) {
             Column(
@@ -65,21 +124,21 @@ fun GameScreen(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Row(
+                LazyRow(
                     modifier =
                     Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
-                    players.forEach { player ->
-                        PlayerInfo(player = player)
+                    items(state.players.size) { i ->
+                        PlayerInfo(player = state.players[i])
                     }
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                RoundCounter(10, 4)
+                info()
             }
         } else {
             Row(
@@ -87,22 +146,21 @@ fun GameScreen(
                 Modifier
                     .fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Bottom,
             ) {
-                Column(
+                LazyColumn(
                     modifier =
                     Modifier
                         .padding(start = 16.dp)
-                        .weight(1f),
+                        .fillMaxHeight(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    players.forEach { player ->
-                        PlayerInfo(player = player)
+                    items(state.players.size) { i ->
+                        PlayerInfo(player = state.players[i])
                     }
                 }
-
-                RoundCounter(totalRounds = totalRounds, currentRound = currentRound)
+                info()
             }
         }
     }

@@ -1,5 +1,4 @@
-package bme.aut.sza.honfoglalo.data.datasource
-
+package bme.aut.sza.honfoglalo.data.repositories
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -7,27 +6,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-// domain layer
-interface UserPreferences {
-
-    suspend fun <T> setPreference(
-        name: T,
-        key: Preferences.Key<T>
-    )
-
-    suspend fun <T> getPreference(key: Preferences.Key<T>): Flow<T?>
-
-
-}
-
-// data layer
-class PreferencesImpl @Inject constructor(
+class UserPreferencesImpl(
     private val userDataStorePreferences: DataStore<Preferences>
-) : UserPreferences {
-
-    val USERNAME = stringPreferencesKey(name = "USERNAME")
+): UserPreferences {
+    override val USERNAME = stringPreferencesKey(name = "USERNAME")
+    override val userId = stringPreferencesKey(name = "USERID")
+    override val serverIP = stringPreferencesKey(name = "SERVERIP")
 
     override suspend fun <T> setPreference(
         name: T,
@@ -47,6 +32,4 @@ class PreferencesImpl @Inject constructor(
                 preferences[key]
             }
     }
-
-
 }

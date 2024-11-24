@@ -8,27 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import bme.aut.sza.honfoglalo.ui.common.AnswerButton
+import bme.aut.sza.honfoglalo.ui.model.AnswerUi
 
 @Composable
 fun AnswerPicker(
-    answers: List<String>,
+    answers: List<AnswerUi>,
     modifier: Modifier = Modifier,
+    onClick: (String) -> Unit,
 ) {
-
-    /*LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier =
-        modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp),
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
-    ) {
-        items(answers) { answer ->
-            AnswerButton(answer = answer)
-        }
-    }*/
-
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -36,18 +23,11 @@ fun AnswerPicker(
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)) {
-                AnswerButton(answer = answers[i], modifier = Modifier.weight(1f))
+                AnswerButton(answer = answers[i].answer, modifier = Modifier.weight(1f), onClick = { onClick(answers[i].answer) })
                 if (i < answers.size - 1) {
-                    AnswerButton(answer = answers[i + 1], modifier = Modifier.weight(1f))
+                    AnswerButton(answer = answers[i + 1].answer, modifier = Modifier.weight(1f), onClick = { onClick(answers[i + 1].answer) })
                 }
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AnswerPickerPreview() {
-    val answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4", "xdd")
-    AnswerPicker(answers = answers)
 }

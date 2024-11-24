@@ -11,17 +11,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Popup
-import bme.aut.sza.honfoglalo.data.Category
-import bme.aut.sza.honfoglalo.data.Question
+import bme.aut.sza.honfoglalo.data.entities.Category
+import bme.aut.sza.honfoglalo.data.entities.QuestionType
+import bme.aut.sza.honfoglalo.ui.model.AnswerUi
+import bme.aut.sza.honfoglalo.ui.model.QuestionUi
 import bme.aut.sza.honfoglalo.ui.questions.QuestionBox
-import bme.aut.sza.honfoglalo.ui.map.HungaryMap
 import bme.aut.sza.honfoglalo.ui.theme.Shade
 
 @Composable
 fun AnswerPickingQuestion(
-    question: Question,
+    question: QuestionUi,
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
+    onAnswerSelected: (String) -> Unit
 ) {
     Popup(
         onDismissRequest = onDismissRequest,
@@ -41,6 +43,7 @@ fun AnswerPickingQuestion(
 
             AnswerPicker(
                 answers = question.answers,
+                onClick = onAnswerSelected
             )
         }
     }
@@ -50,14 +53,14 @@ fun AnswerPickingQuestion(
 @Composable
 fun AnswerPickingQuestionPreview() {
     val q =
-        Question(
+        QuestionUi(
             question = "rnaőjgn őromfpweomfvjih lfvepvuvpfiei hngfyrfewísfwedfí feígbyvwrvyeberg yergihgb úp?",
+            answers = listOf(AnswerUi("Answer 1"), AnswerUi("Answer 2"), AnswerUi("Answer 3"), AnswerUi("Answer 4")),
             category = Category.ENTERTAINMENT,
-            answers = listOf("Answer 1", "Answer 2", "Answer 3", "Answer 4"),
+            type = QuestionType.ANSWER_PICK
         )
 
     Box(modifier = Modifier) {
-        HungaryMap()
-        AnswerPickingQuestion(question = q)
+        AnswerPickingQuestion(question = q, onAnswerSelected = {})
     }
 }

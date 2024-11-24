@@ -7,8 +7,8 @@ import android.graphics.Region
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asAndroidPath
-import bme.aut.sza.honfoglalo.data.County
-import bme.aut.sza.honfoglalo.data.GeoJson
+import bme.aut.sza.honfoglalo.data.entities.County
+import bme.aut.sza.honfoglalo.data.entities.GeoJson
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
