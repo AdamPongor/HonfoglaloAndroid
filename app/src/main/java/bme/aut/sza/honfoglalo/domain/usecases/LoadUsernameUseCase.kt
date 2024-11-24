@@ -8,7 +8,7 @@ class LoadUsernameUseCase(private val repository: GamesRepository) {
         return try {
             val username = repository.loadUsername()
             Result.success(username)
-        } catch (e: IOException) {
+        } catch (e: Throwable) {
             Result.failure(e)
         }
     }

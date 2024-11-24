@@ -9,7 +9,7 @@ class AnswerQuestionUseCase(private val gamesRepository: GamesRepository) {
         return try {
             gamesRepository.answerQuestion(answer.asAnswerEntity())
             Result.success(null)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Result.failure(e)
         }
     }

@@ -12,9 +12,12 @@ import bme.aut.sza.honfoglalo.data.util.SocketHandler
 import bme.aut.sza.honfoglalo.data.util.WebSocketDataParser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import kotlin.coroutines.resume
@@ -40,6 +43,12 @@ class WebSocketRemoteDataSource(
             userPreferencesDataSource.saveUsername(joinData.username)
 
             return suspendCoroutine { continuation ->
+                socket.once(GameEvents.ERROR.Name) { error ->
+                    val message = error[0].toString()
+                    socket.off()
+                    continuation.resumeWithException(Throwable(message))
+                }
+
                 socket.once(GameEvents.GAME_UPDATED.Name) { args ->
                     try {
                         val state = WebSocketDataParser.parseGameState(args)
@@ -48,6 +57,7 @@ class WebSocketRemoteDataSource(
                             CoroutineScope(Dispatchers.IO).launch {
                                 userPreferencesDataSource.saveUserId(myPlayer)
                             }
+                            socket.off()
                             continuation.resume(Unit)
                         } else {
                             continuation.resumeWithException(
@@ -69,7 +79,10 @@ class WebSocketRemoteDataSource(
 
         socket.emit(GameEvents.REQUEST_UPDATE.Name, JSONObject())
 
-
+        socket.on(GameEvents.ERROR.Name) { args ->
+            val message = args[0].toString()
+            close(Throwable(message))
+        }
 
         socket.on(GameEvents.GAME_UPDATED.Name) { args ->
             try {
@@ -84,6 +97,7 @@ class WebSocketRemoteDataSource(
                             val players = WebSocketDataParser.parsePlayers(args)
                             trySend(Pair(state, players))
                             socket.off(GameEvents.GAME_UPDATED.Name)
+                            socket.off(GameEvents.ERROR.Name)
                         }
                         else -> { }
                     }
@@ -105,14 +119,18 @@ class WebSocketRemoteDataSource(
 
         socket.emit(GameEvents.REQUEST_UPDATE.Name, JSONObject())
 
+        socket.on(GameEvents.ERROR.Name) { args ->
+            val message = args[0].toString()
+            // throw (Throwable(message))
+            Log.d("Error: ", message)
+        }
+
         socket.on(GameEvents.GAME_UPDATED.Name) { args ->
             try {
                 val state = WebSocketDataParser.parseGameState(args)
                 if (state != null) {
-                    Log.d("xdd", args[0].toString())
                     val players = WebSocketDataParser.parsePlayers(args)
                     val territories = WebSocketDataParser.parseMap(args)
-                    Log.d("xdd", territories.toString())
                     when(state) {
                         GameStates.CHOOSING_QUESTION -> {
                             val gameData = GameDataEntity(state, players, null, null, territories)
@@ -164,8 +182,6 @@ class WebSocketRemoteDataSource(
 
     fun selectTerritory(territoryName: TerritoryEntity) {
         val socket = socketHandler.getSocket()
-        Log.d("Territory: ", territoryName.FullName)
-        Log.d("Territory: ", territoryName.idName)
         socket.emit(GameEvents.SELECT_TERRITORY.Name, JSONObject().apply {
             put("territory", TerritoryEntity.getID(territoryName.FullName))
         })

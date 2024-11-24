@@ -10,7 +10,7 @@ class LeaveGameUseCase(
         return try {
             repository.leaveGame()
             Result.success(null)
-        } catch (e: IOException) {
+        } catch (e: Throwable) {
             Result.failure(e)
         }
     }

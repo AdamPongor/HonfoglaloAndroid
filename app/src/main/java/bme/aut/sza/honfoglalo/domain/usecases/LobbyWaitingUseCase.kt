@@ -14,7 +14,7 @@ class LobbyWaitingUseCase(private val repository: GamesRepository) {
             try {
                 val mappedPlayers = players.map { it.asPlayer() }
                 Result.success(Pair(state, mappedPlayers))
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Result.failure(e)
             }
         }

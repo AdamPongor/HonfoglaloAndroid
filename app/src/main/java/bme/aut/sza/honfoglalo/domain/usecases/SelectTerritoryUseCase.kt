@@ -11,7 +11,7 @@ class SelectTerritoryUseCase(private val repository: GamesRepository) {
             Log.d("Territory: ", territory.territory)
             repository.selectTerritory(territory.asTerritoryEntity())
             Result.success(null)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Result.failure(e)
         }
     }

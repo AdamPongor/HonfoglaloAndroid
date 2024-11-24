@@ -43,13 +43,11 @@ class GameViewModel @Inject constructor(
 
             questUseCases.handleGameUseCase().collect { result ->
                 result.onSuccess { gameState ->
-                    Log.d("xdd", gameState.territories.toString())
 
                     _state.update {
                         for (i in gameState.territories){
                             val newCounty = _state.value.territories.find { it.name == i.territory }
                             newCounty?.color = i.color!!
-                            Log.d("xdd", i.color.toString())
                         }
 
                         it.copy(
@@ -93,6 +91,8 @@ class GameViewModel @Inject constructor(
                         }
                         else -> { }
                     }
+                }.onFailure { error ->
+                    Log.d("Error: ", error.toString())
                 }
             }
         }

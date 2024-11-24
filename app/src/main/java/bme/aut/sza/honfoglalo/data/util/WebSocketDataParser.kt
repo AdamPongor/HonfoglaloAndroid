@@ -18,7 +18,6 @@ import org.json.JSONObject
 object WebSocketDataParser {
     fun parseGameState(args: Array<Any>): GameStates? {
         val response = JSONObject(args[0].toString())
-        Log.d("Response: ", response.toString())
         val game = response.getJSONObject("game")
         val gameState = game.getString("state")
         val state = GameStates.entries.find { it.Name == gameState }
@@ -53,7 +52,6 @@ object WebSocketDataParser {
         val response = JSONObject(args[0].toString())
         val questionState = response.getJSONObject("questionState")
         val questionObject = questionState.getJSONObject("question")
-        Log.d("Question object: ", questionObject.toString())
         val question = questionObject.getString("question")
         val possibleAnswers = questionObject.getJSONArray("possibleAnswers")
         val answersList: List<AnswerEntity> = List(possibleAnswers.length()) { i ->
